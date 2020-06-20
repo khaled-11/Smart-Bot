@@ -1,0 +1,62 @@
+<%- include("header") -%>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v7.0'
+    });
+  };
+
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your Chat Plugin code -->
+<div class="fb-customerchat"
+  attribution=setup_tool
+  page_id="101109184971310"
+theme_color="#A9A9A9"
+logged_in_greeting="I am ready to help!!"
+logged_out_greeting="I am ready to help!!">
+</div>
+<center>
+<br>
+<br>
+    <h1>Facebook Messaging Hackathon</h1>
+<br>
+    <h2>This project uses Artificial Intelligence to Read "English" Text from Images, Provide Translation or Audio, and Extract Data from Forms or Passports Images.</h2>
+
+</center>
+<br>
+
+<ol>
+    <li>
+        You can use the App from the Facebook Messenger Plugin here or in the Messenger App itself.
+    </li>
+    <li>
+        You can send any Image with "English" Text and the Smart Bot will convert it to a Text File.
+   </li>
+   <li>
+        You can Translate the Generated Text File or any other Text File to any of the Supported Languages.
+   </li>
+   <li>
+        You can generate Audio from the Original Text File or generate Audio from the Transalated text file!!
+   </li>
+   <li>
+        Moreover, you can send any Form or Passport Image, and we will extract the Data from the Images.
+    </li>
+   <li>
+        Finally, We will save all of your Generated Files and Data in groups using a Smart Document Classifier Algorithm.
+   </li>
+   <li>
+        All of your Files and Data will be Protected, and can be accessed only using the same Facebook Account.
+   </li>
+</ol>
+
+<%- include("footer") -%>

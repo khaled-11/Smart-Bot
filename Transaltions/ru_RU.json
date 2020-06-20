@@ -1,0 +1,9 @@
+{
+	"menu": {
+		"welcome": "menu.welcome",
+		"image_to_text": "menu.image_to_text",
+		"text_to_audio": "menu.text_to_audio",
+		"summary": "menu.summary",
+		"extractor": "menu.extractor"
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"passport": {
+		"first_intro": "You can send us an image of a passport and we will extract the data and save it in your personal storage if it is valid and we can read it!",
+		"first_intro2": "Please make sure it is an image of a passport!\nTo start, please send an Image!",
+		"saved_name": "We found the following name: {{name}}.We saved the files under passports => {{image_count}}_{{name}}",
+		"no_name": "We didn't find any name. We saved the file under passports => {{image_count}}_other",
+		"file": "Here is the text file!",
+		"failed": "This end point failed! Please try a different passport image or process the image as a Form!\nSorry for any inconvenience!"
+	},
+	"menu": {
+		"go_back": "Go Back",
+		"welcome": "Hi {{first_name}}. I am Data Extractor Bot. I can extract data from a Form or a Passport Image. To start please select from below:",
+		"image_to_text": "Image To Text",
+		"passport": "Passport Image",
+		"form": "Form Image",
+		"smart_documents": "Smart Documents",
+		"notify_me": "Notify Me",
+		"data_extractor": "Data Extractor",
+		"first_welcome": "Hi {{first_name}}. I am Smart Documents Bot. I can extract data from a Form or a Passport Image.\nAlso, I can translate, summarize, and genereate audio.",
+		"first_welcome2": "Moreover, I can provide resources to learn more about the scanned images or documents.\nTo start, Please choose from below:",
+		"cannot_recognize": "Sorry, We cannot recognize {{text}}. Here is the main menu.",
+		"one_file": "You can work only on one file at a moment. Please send only one Image!",
+		"when_prompted": "You can only send attachments when prompted!",
+		"no_balance": "You have used all you allowed tries. Pease wait till next month!",
+		"no_jpg": "We can extract text from JPG images only. Please send an image file!",
+		"received": "Image Received, please wait!",
+		"scans": "You have scanned {{image_count}} images so far. You still have {{textract_limit}} scans for this month!"
+		},
+	"forms": {
+		"failed": "This File failed! This could be because of the Network, the image does not contain text, or it is low resolution. \nPlease try again or try a different image!",
+		"category": "We saved the files under forms => category name: {{cat}}",
+		"file": "Here is the text file!",
+		"first_intro": "You can send us an image of a form or a document with data and we will extract the data and save it in your personal storage!",
+		"first_intro2": "Please make sure it is an image with information fields!\nTo start, please send an Image!"
+	},
+	"image-to-text": {
+		"welcome": "image-to-text.welcome",
+		"instruction": "image-to-text.instruction"
+	},
+	"smart_helper": {
+		"go_back": "smart_helper.go_back"
+	}
+}

@@ -1,0 +1,46 @@
+{
+  "name": "smart-bot",
+  "version": "1.0.0",
+  "description": "Facebook Messenger Chatbot using AI & DynamoDB",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khaled-11/Smart-Bot.git"
+  },
+  "keywords": [
+    "Chatbot",
+    "Facebook",
+    "Messenger",
+    "DynamoDB",
+    "AWS",
+    "API",
+    "Textract",
+    "ML"
+  ],
+  "author": "Khaled Abouseada",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khaled-11/Smart-Bot/issues"
+  },
+  "homepage": "https://github.com/khaled-11/Smart-Bot#readme",
+  "dependencies": {
+    "aws-sdk": "^2.682.0",
+    "body-parser": "latest",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.3",
+    "express": "latest",
+    "express-session": "^1.17.1",
+    "form-data": "^3.0.0",
+    "fs": "0.0.1-security",
+    "i18n": "^0.10.0",
+    "lodash": "^4.17.15",
+    "nodemailer": "^6.4.6",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
+  },
+  "main": "index.js",
+  "devDependencies": {}
+}

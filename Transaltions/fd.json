@@ -1,0 +1,1105 @@
+curl -X POST -H "Content-Type: application/json" -d "greeting":[{
+    "locale":"default",
+    "text":"Welcome Khaled!! I am your Smart Helper from Talk to Me!! We are so Excited to show you our new Amazing Features. We are here to Help and Save your Time!!"
+    }],"https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADXL3rUZAdsBAPnNERr9vpJP359ZC4rZAtqrBkzUYw2AO7Ttjl55ybolbC7FJLzyiwQj4II9wE6I1U0P3LtQD76LbohPZCZBsLeHOReqPyt1junk4m3WIZB2hLsZBrMBSwwrzMHKnjxOOG6WaxQCd93I6dlAnmwOLXlZB86C8mWuwZDZD"
+
+
+
+
+
+
+
+    curl -X POST -H "Content-Type: application/json" -d '{
+            "greeting":[{"locale":"default","text":"Welcome {{user_first_name}}!! I am your Smart Helper from Talk to Me!! We are so Excited to show you our new Amazing Features. We are here to Help and Save your Time!!"},{"locale":"ar_AR","text":"أهلا بك {{user_first_name}}, انا مساعدك الذكي من Talk to Me. نحن متحمسين لنريك خدماتنا الجديده والمميزه. نحن هنا لمساعدتك وتوفير وقتك!"}]
+        }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADXL3rUZAdsBAPnNERr9vpJP359ZC4rZAtqrBkzUYw2AO7Ttjl55ybolbC7FJLzyiwQj4II9wE6I1U0P3LtQD76LbohPZCZBsLeHOReqPyt1junk4m3WIZB2hLsZBrMBSwwrzMHKnjxOOG6WaxQCd93I6dlAnmwOLXlZB86C8mWuwZDZD"
+     
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "get_started":{ "payload":"GET_STARTED" }
+         }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAKgBEWGpmUBAKHjHk8DbZCNpOq9CkTSkfUnFILAwogaH2cPxOMo9RxbG1JxZCZAt3NvT6ZBAgSVbsZApQExGLcLODA5kCZAZC5d8PAZBJXl2gNs5ZAsfRbvrXB8r95iaTZAy51WZAa81yT730W6IEWmWsGiQTMIb3qceSn50zW9qYEWgZDZD"
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "name": "Smart Documents",
+            "profile_picture_url": "https://techolopia.com/wp-content/uploads/2020/06/docs-bot.png",
+        }' "https://graph.facebook.com/me/personas?access_token=EAAKgBEWGpmUBABzOZChEzZCbzmKy7oZAlLpFexVXueZCtAeBdBR7FFLd3v36HNz0oOy8yw49q3rDbq7EaoZAqjXaoNzTfmRFlnTGFvbXZBjpL73g1HPe2oTQGuPp73VDiornzC6YJo7aARBL0UNIONIeHvCg7n1BSthbbdhHcFEQZDZD"
+
+        //"id":"2622107971364323"
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "recipient":{
+              "id":"4476484539044126"
+             },
+            "sender_action":"typing_on",
+            "persona_id": "2789366834683303"
+           }' "https://graph.facebook.com/me/messages?access_token=EAAKgBEWGpmUBAKHjHk8DbZCNpOq9CkTSkfUnFILAwogaH2cPxOMo9RxbG1JxZCZAt3NvT6ZBAgSVbsZApQExGLcLODA5kCZAZC5d8PAZBJXl2gNs5ZAsfRbvrXB8r95iaTZAy51WZAa81yT730W6IEWmWsGiQTMIb3qceSn50zW9qYEWgZDZD"
+
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "name": "Data Extractor",
+            "profile_picture_url": "https://techolopia.com/wp-content/uploads/2020/06/data-extractor.jpg",
+        }' "https://graph.facebook.com/me/personas?access_token=EAACszGCxsIYBAKEnCsE2Tz3MiVfQoJDhY1hRUnnGBahuX0XSzsxUXtWUlM9gSsM3humSfcC2fyjjcmDHuw8ctjSZAOxCbmdZBISXotZBLElkj9lJSO0nN3R2ea8MgAEXnqcFsdewOMB9ZAkbqzNyz9kwyECHZCMKZCKp1KQ8zQsgZDZD"
+        
+        //"id":"717966128962040"
+
+
+        curl -X GET "https://graph.facebook.com/me/personas?access_token=<PAGE_ACCESS_TOKEN>"
+
+
+
+
+
+
+
+
+
+
+
+
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "persistent_menu": [
+                {
+                    "locale": "default",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Applications",
+                            "call_to_actions": [
+                                {
+                                  "title": "Smart Documents",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Data Extractor" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Smart Helper" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "My Account",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "My Files",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "My Balance",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Customer Service" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ar_AR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "التطبيقات",
+                            "call_to_actions": [
+                                {
+                                  "title": "المستندات الذكيه",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "مستخرج المعلومات" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "المساعد الذكي" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "حسابي",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "ملفاتي",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "الرصيد",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "خدمه العملاء" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "de_De",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Anwendungen",
+                            "call_to_actions": [
+                                {
+                                  "title": "Intelligente Dokumente",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Datenextraktor" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Intelligente Helfer" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Mein Konto",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Meine Akten",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Mein Gleichgewicht",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Kundendienst" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "es_ES",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Aplicaciones",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documentos inteligentes",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Extractor de datos" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Ayudante inteligente" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Mi cuenta",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Mis archivos",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Mi balance",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Servicio al Cliente" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "it_IT",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "applicazioni",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documenti intelligenti",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Estrattore di dati" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Intelligente aiutante" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Il mio account",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "I miei file",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Il mio saldo",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Assistenza clienti" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ru_RU",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Приложения",
+                            "call_to_actions": [
+                                {
+                                  "title": "Умные Документы",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Извлечение данных" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Smart Helper" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Мой счет",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Мои файлы",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Мой баланс",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Обслуживание клиентов" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "pt_BR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Formulários",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documentos inteligentes",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Extrator de dados" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Inteligente ajudante" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Minha conta",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Meus arquivos",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "meu saldo",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Atendimento ao Cliente" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ko_KR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "응용",
+                            "call_to_actions": [
+                                {
+                                  "title": "스마트 문서",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "데이터 추출기" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "스마트 도우미" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "내 계정",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "내 서류들",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "나의 균형",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "고객 서비스" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                }
+            ]
+        }' "https://graph.facebook.com/v7.0/me/messenger_profile?access_token=EAAKgBEWGpmUBABLEqP7ZBctSLSoVSszHTC4ZAIDjtCWu86G9E1qrZAXejthtl12jhyk0SZCVsn8NKBQqPaTte4ZCjSbagftyIePtyTUG8tBepefIe2n4A6cZBPTSxURwIn0F2OlY2rcsApuOEN0yiugELbTFBBz7hpNjLKZAYNtSAZDZD"        
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+curl -X POST -H "Content-Type: application/json" -d '{
+    "persistent_menu": [
+        {
+            "locale": "default",
+            "composer_input_disabled": false,
+            "call_to_actions": [
+                {
+                    "type": "nested",
+                    "title": "Applications 🤖",
+                    "call_to_actions": [
+                        {
+                            "title": "Smart Documents 📃",
+                            "type": "postback",
+                            "payload": "SMART_DOCUMENTS"     
+                        },
+                                {
+                                  "title": "Data Extractor 📝" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Smart Helper 💬" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "My Account 📒",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "My Files 📒",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "My Balance 🧾",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Customer Service 🗣️" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ar_AR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": " 🤖التطبيقات",
+                            "call_to_actions": [
+                                {
+                                  "title": " 📃المستندات الذكيه",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": " 📝مستخرج المعلومات" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": " 💬المساعد الذكي" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": " 📒حسابي",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": " 📒ملفاتي",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": " 🧾الرصيد",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": " 🗣️خدمه العملاء" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "de_De",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Anwendungen",
+                            "call_to_actions": [
+                                {
+                                  "title": "Intelligente Dokumente",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Datenextraktor" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Intelligente Helfer" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Mein Konto",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Meine Akten",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Mein Gleichgewicht",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Kundendienst" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "es_ES",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Aplicaciones",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documentos inteligentes",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Extractor de datos" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Ayudante inteligente" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Mi cuenta",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Mis archivos",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Mi balance",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Servicio al Cliente" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "fr_FR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Applications",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documents intelligents",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Extracteur de données" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Intelligente assistant" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Mon compte",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Mes dossiers",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Mon solde",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Service Clients" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "it_IT",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "applicazioni",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documenti intelligenti",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Estrattore di dati" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Intelligente aiutante" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Il mio account",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "I miei file",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Il mio saldo",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Assistenza clienti" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ja_JP",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "用途",
+                            "call_to_actions": [
+                                {
+                                  "title": "スマートドキュメント",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "データ抽出" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "スマートヘルパー" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "マイアカウント",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "私のファイル",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "マイバランス",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "顧客サービス" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ko_KR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "응용",
+                            "call_to_actions": [
+                                {
+                                  "title": "스마트 문서",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "데이터 추출기" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "스마트 도우미" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "내 계정",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "내 서류들",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "나의 균형",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "고객 서비스" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "pt_BR",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Formulários",
+                            "call_to_actions": [
+                                {
+                                  "title": "Documentos inteligentes",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Extrator de dados" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Inteligente ajudante" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Minha conta",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Meus arquivos",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "meu saldo",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Atendimento ao Cliente" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "ru_RU",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "Приложения",
+                            "call_to_actions": [
+                                {
+                                  "title": "Умные Документы",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "Извлечение данных" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "Smart Helper" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "Мой счет",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "Мои файлы",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "Мой баланс",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "Обслуживание клиентов" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                },
+                {
+                    "locale": "zh_CN",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "nested",
+                            "title": "应用领域",
+                            "call_to_actions": [
+                                {
+                                  "title": "智能文件",
+                                  "type": "postback",
+                                  "payload": "SMART_DOCUMENTS"
+                                },
+                                {
+                                  "title": "数据提取器" ,
+                                  "type": "postback",
+                                  "payload": "DATA_EXTRACTOR"
+                                },
+                                {
+                                  "title": "智能助手" ,
+                                  "type": "postback",
+                                  "payload": "SMART_HELPER"
+                                }
+                              ]
+                        },
+                        {
+                            "type": "nested",
+                            "title": "我的帐户",
+                            "call_to_actions": [
+                                {
+                                    "type": "postback",
+                                    "title": "我的文件",
+                                    "payload": "FILES"
+                                },
+                                {
+                                  "title": "我的平衡",
+                                  "type": "postback",
+                                  "payload": "BALANCE"
+                                }
+                              ]
+                        },
+                        {
+                            "title": "客户服务" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                }
+            ]
+        }' "https://graph.facebook.com/v7.0/me/messenger_profile?access_token=EAAKgBEWGpmUBABLEqP7ZBctSLSoVSszHTC4ZAIDjtCWu86G9E1qrZAXejthtl12jhyk0SZCVsn8NKBQqPaTte4ZCjSbagftyIePtyTUG8tBepefIe2n4A6cZBPTSxURwIn0F2OlY2rcsApuOEN0yiugELbTFBBz7hpNjLKZAYNtSAZDZD"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        curl -X POST -H "Content-Type: application/json" -d '{
+            "persistent_menu": [
+                {
+                    "locale": "default",
+                    "composer_input_disabled": false,
+                    "call_to_actions": [
+                        {
+                            "type": "postback",
+                            "title": "Applications",
+                            "payload": "CUSTOMER_SERVICE"
+                        },
+                        {
+                            "title": "Customer Service" ,
+                            "type": "postback",
+                            "payload": "CUSTOMER_SERVICE"
+                          }
+                    ]
+                }
+            ]
+        }' "https://graph.facebook.com/v7.0/me/messenger_profile?access_token=EAAKgBEWGpmUBABLEqP7ZBctSLSoVSszHTC4ZAIDjtCWu86G9E1qrZAXejthtl12jhyk0SZCVsn8NKBQqPaTte4ZCjSbagftyIePtyTUG8tBepefIe2n4A6cZBPTSxURwIn0F2OlY2rcsApuOEN0yiugELbTFBBz7hpNjLKZAYNtSAZDZD"
