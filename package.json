@@ -2,8 +2,10 @@
   "name": "smart-bot",
   "version": "1.0.0",
   "description": "Facebook Messenger Chatbot using AI & DynamoDB",
+  "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,5 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
   },
-  "main": "index.js",
   "devDependencies": {}
 }

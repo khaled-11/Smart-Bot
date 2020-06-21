@@ -8,7 +8,7 @@ const sagemakerruntime = new aws.SageMakerRuntime();
 module.exports = async buffer => {
   const params = {
     Body: buffer,
-    EndpointName: 'Pass-AI',
+    EndpointName: 'Pass-AI-end',
     ContentType: 'application/x-image'
   };
 

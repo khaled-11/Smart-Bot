@@ -54,6 +54,7 @@ app.post('/webhook', (req, res) => {
         if (webhook_event.pass_thread_control.metadata.includes("from Page Inbox")){
           firstMessages(sender_psid, "BACK", app);
       }}
+      
       // If OTN Approval, will update variables in the DB and trigger the First App to confirm.
       if (webhook_event.optin){
         payload = webhook_event.optin.payload;

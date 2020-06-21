@@ -24,7 +24,11 @@
 		"no_balance": "You have used all you allowed tries. Pease wait till next month!",
 		"no_jpg": "We can extract text from JPG images only. Please send an image file!",
 		"received": "Image Received, please wait!",
-		"scans": "You have scanned {{image_count}} images so far. You still have {{textract_limit}} scans for this month!"
+		"scans": "You have scanned {{image_count}} images so far. You still have {{textract_limit}} scans for this month!",
+		"view_documents": "Documents Files",
+		"view_forms": "Forms Files",
+		"view_passports": "Passport Files",
+		"files": "You can see your files here in categories!!"
 	},
 	"forms": {
 		"failed": "This File failed! This could be because of the Network, the image does not contain text, or it is low resolution. \nPlease try again or try a different image!",
@@ -37,11 +41,17 @@
 		"instruction": "guides",
 		"first_intro": "Intro and instructions"
 	},
-	"smart_helper": {
-		"go_back": "smart_helper.go_back"
-	},
 	"get_started": {
-		"second_welcome": "Second Intro for Get Started",
-		"first_welcome": "Firsts Intro for Get Started"
+		"second_welcome": "We have some Applications that could help you!",
+		"first_welcome": "Hi, and welcome to your smart place."
+	},
+	"files": {
+		"instruction": "Click the name of the file to open it.",
+		"main_instruction": "You can see your Files here in categories!"
+	},
+	"You don't have any files yet.": "You don't have any files yet.",
+	"send file here": "send file here",
+	"Please click on the file to open it": {
+		"\nThank you so much!": "Please click on the file to open it.\nThank you so much!"
 	}
 }

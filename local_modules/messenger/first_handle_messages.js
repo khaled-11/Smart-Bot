@@ -14,7 +14,7 @@ imageToText = require("../other/image_to_text"),
 translateText = require("../other/translate_text"),
 updateState = require("../database/update_state"),
 notification = require("./OTN"),
-readImage = require("../other/read_image");
+readImage = require("../other/read_image"); 
 
 module.exports = async (sender_psid, webhook_event, application) => {
   let app = "first";
