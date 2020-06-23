@@ -37,6 +37,9 @@ module.exports = async (sender_psid, documents, pers) => {
         s += "\n";
       }
     }}
+    if (s.length < 15){
+      s = "There is no much data to summarize!!";
+    }
     fs.writeFile(`./files/${sender_psid}/summary.txt`, s, function (err) {
       if (err) {
             console.log("An error occured while writing JSON Object to File.");

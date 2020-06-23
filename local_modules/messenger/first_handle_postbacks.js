@@ -1215,11 +1215,11 @@ module.exports = async (sender_psid, webhook_event, application) => {
       if (err) {
         return console.log(err);
       }
-      await sleep(500);
+      await sleep(600);
       state = await summarizeText(sender_psid, data, getPers);
-      await sleep(500);
+      await sleep(600);
     });
-    await sleep(600);
+    await sleep(800);
     refresh = await updateState(sender_psid, "general_state", app, "summary online");
     --summary_limit;
     refresh = await updateLimit(sender_psid,"Summary_Limit", summary_limit);

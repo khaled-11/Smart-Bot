@@ -99,7 +99,9 @@ app.post('/webhook', (req, res) => {
         check_message = webhook_event.message.text;
         recipient_id = webhook_event.recipient.id;
         // If no customer service available, the user can send a text to go back to the main Bot.
-        if(check_message.includes("#back to bot")){
+        check_message = check_message.toLowerCase();
+
+        if(check_message.includes("#back to bot") || (check_message.includes("#")) && check_message.includes("back")){
           console.log("user ask for back");
           takeControl(sender_psid);
         }
