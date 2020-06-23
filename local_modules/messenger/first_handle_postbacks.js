@@ -6,6 +6,7 @@ i18n = require("i18n"),
 passThread = require("./pass_thread"),
 updateState = require("../database/update_state"),
 updateLimit = require("../database/update_limit"),
+join = require("path"),
 translateText = require("../other/translate_text"),
 summarizeText = require("../other/summarize_text"),
 audio = require("../other/get_audio"),
@@ -13,6 +14,7 @@ unirest = require("unirest"),
 secondMessages = require("./second_handle_messages"),
 firstMessages = require("./first_handle_messages"),
 updateCheck = require("../database/updateCheck"); 
+const { link } = require("fs");
 
 module.exports = async (sender_psid, webhook_event, application) => {
   // Decalring an App name to distinguish when calling Send Response API
@@ -143,16 +145,13 @@ module.exports = async (sender_psid, webhook_event, application) => {
         secondMessages(sender_psid, "moved");
       // If Not successful, send to the user that he is on the same App.
       } else {
-        response = { "text":"You are on the same App. Here is the main menu!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, "second");
         check = await updateCheck(sender_psid, "second","Menu");
         // Send menu from second App.
         secondMessages(sender_psid, "moved");
       }
     // If the user is connected with the customer service.  
     } else {
-        response = { "text":"Please wait until you finish with the customer service!"};
+        response = { "text":i18n.__("menu.wait")};
         action = null;
         state = await callSendAPI(sender_psid, response, action, app);
     }
@@ -167,13 +166,10 @@ module.exports = async (sender_psid, webhook_event, application) => {
         firstMessages(sender_psid, "moved");
       // If the user is on the same App  
       } else {
-        response = { "text":"You are on the same App!!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);
         state = await menu(sender_psid, app);
       // If the user is connected with Cutomer Service
       }} else{
-        response = { "text":"Please wait until you finish with the customer service!"};
+        response = { "text":i18n.__("menu.wait")};
         action = null;
         state = await callSendAPI(sender_psid, response, action, app);
       }
@@ -182,14 +178,14 @@ module.exports = async (sender_psid, webhook_event, application) => {
   // Working on NLP App to communicate using text/audio.
   else if (payload === 'SMART_HELPER'){
   if (!general_state.includes("inbox")){
-    response = { "text":"This App is still under Development!!"};
+    response = { "text":i18n.__("menu.under_development")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
-    response = { "text":"You will be able to communicate with the Bots with just text and voice!!"};
+    response = { "text":i18n.__("menu.smart_helper")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
     response = {
-      "text":"Please check back soon!", 
+      "text":i18n.__("menu.soon"), 
       "quick_replies":[
         {
           "content_type":"text",
@@ -201,7 +197,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
       state = await callSendAPI(sender_psid, response, action, "inbox");
   // Diable the menu when connected with customer service.    
   }else{
-    response = { "text":"Please wait until you finish with the customer service!"};
+    response = { "text":i18n.__("menu.wait")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
   }
@@ -237,7 +233,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     } else {
-      response = { "text":"Please wait until you finish with the customer service!"};
+      response = { "text":i18n.__("menu.wait")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     }
@@ -245,14 +241,14 @@ module.exports = async (sender_psid, webhook_event, application) => {
   } else if (payload === 'BALANCE'){
     // If the user is not connectec with customer service.
     if (!general_state.includes("inbox")){
-      response = { "text":`1)Your Image conversion limit is: 💰${textract_limit}.\n2)Your Translations limit is: 💰${translate_limit}.\n3)Your Learn About Topics limit is: 💰${learn_more_limit}.\n4)Your Summarizing Text limit is: 💰${summary_limit}.\n5)Your Audio Generating limit is: 💰${audio_limit}.`};
+      response = { "text":i18n.__("menu.balance",{"files":image_count, "textract_limit":textract_limit , "learn_more_limit":learn_more_limit, "translation_limit":translate_limit, "summary_limit":summary_limit, "audio_limit":audio_limit})};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
-      response = { "text":`The balance gets updated every month.`};
+      response = { "text":i18n.__("menu.balance_updated")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
       response = {
-        "text":"If you need to add more early, please contact the customer service department!", 
+        "text":i18n.__("menu.balance_end"), 
         "quick_replies":[
           {
             "content_type":"text",
@@ -261,7 +257,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
           },
           {
             "content_type":"text",
-            "title":"Customer Service",
+            "title":i18n.__("menu.customer_service"),
             "payload":"CUSTOMER_SERVICE"
           }
         ]
@@ -270,7 +266,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
       state = await callSendAPI(sender_psid, response, action, app);
     // Send the Balance
     } else{
-      response = { "text":`Check Balance:\n1) Your Image conversion limit is: 💰${textract_limit}.\n2) Your Translations limit is: 💰${translate_limit}.\n3) Your Learn About Topics limit is: 💰${learn_more_limit}.\n4) Your Summarizing Text limit is: 💰${summary_limit}.\n5) Your Audio Generating limit is: 💰${audio_limit}.`};
+      response = { "text":i18n.__("menu.balance",{"files":image_count, "textract_limit":textract_limit , "learn_more_limit":learn_more_limit, "translation_limit":translate_limit, "summary_limit":summary_limit, "audio_limit":audio_limit})};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     }
@@ -284,21 +280,21 @@ module.exports = async (sender_psid, webhook_event, application) => {
     t = await passThread(sender_psid, 'first'); 
     t = await passThread(sender_psid, 'inbox');   
     // Sending instructions and a way to go back.
-    response = { "text":"You are moved to the Inbox and you can't communicate with the Bots anymore."};
+    response = { "text":i18n.__("inbox.instruction1")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");  
-    response = { "text":"After you finish the conversation with the Customer Service, the Customer Service Representative will move you back to the main Bot."};
+    response = { "text":i18n.__("inbox.instruction2")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
-    response = { "text":"If there is no response from the Customer Service, please leave your message and they will get back to you soon!"};
+    response = { "text":i18n.__("inbox.instruction3")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
-    response = { "text":"If you want to move to the main Bot at any time, just send (#back to bot). Please don't forget the '#'."};
+    response = { "text":i18n.__("inbox.instruction4")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
     } else {
       // If already connected
-      response = { "text":"You are already connected with the Customer Service."};
+      response = { "text":i18n.__("menu.connected")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, "inbox");  
     }
@@ -330,7 +326,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
         "payload":"FILES"
       }
 
-      response = {"text": `We have the following files:\n${s}`};
+      response = {"text":i18n.__("files.exists",{"s":s})};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
       response = {
@@ -342,7 +338,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     // If the user does not have file!!
     } else{
       response = {
-        "text":  i18n.__("You don't have any files yet."), 
+        "text":  i18n.__("files.no_files"), 
         "quick_replies":[
           {
             "content_type":"text",
@@ -354,104 +350,154 @@ module.exports = async (sender_psid, webhook_event, application) => {
       state = await callSendAPI(sender_psid, response, action, app);
     }
   // If the user want to see the FORMS files
-} else if (payload === 'SECOND_V_DOC'){
-  if (document_category.length > 1){
-    s = "";
-    // Quick Relies Body :)
-    quick_replies = [];
-    for( i = 11 ; i < document_category.length ; ++i){
-      s += (document_category[i].S +"\n");
-      T = document_category[i];
-      path = documents[`${T.S}`].S;
-      quick_replies[i-11] = {"content_type":"text","title":`${document_category[i].S}`,"payload":`VIEW_D_${path}`}
-      if (i == 20){
-        i = document_category.length;
+  } else if (payload === 'SECOND_V_DOC'){
+    if (document_category.length > 1){
+      s = "";
+      // Quick Relies Body :)
+      quick_replies = [];
+      for( i = 11 ; i < document_category.length ; ++i){
+        s += (document_category[i].S +"\n");
+        T = document_category[i];
+        path = documents[`${T.S}`].S;
+        quick_replies[i-11] = {"content_type":"text","title":`${document_category[i].S}`,"payload":`VIEW_D_${path}`}
+        if (i == 20){
+          i = document_category.length;
+        }
       }
-    }
-    // Adding Go back Button.
-    if (document_category.length > 21){
-    quick_replies[quick_replies.length] = {
-      "content_type":"text",
-      "title":"More Files",
-      "payload":"THIRD_V_DOC"
-    }}
-    quick_replies[quick_replies.length] = {
-      "content_type":"text",
-      "title":i18n.__("menu.go_back"),
-      "payload":"VIEW_DOCS"
-    }
+      // Adding Go back Button.
+      if (document_category.length > 21){
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":"More Files",
+        "payload":"THIRD_V_DOC"
+      }}
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":i18n.__("menu.go_back"),
+        "payload":"VIEW_DOCS"
+      }
 
-    response = {"text": `We have the following files:\n${s}`};
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-    response = {
-      "text":  i18n.__("files.instruction"), 
-      "quick_replies": quick_replies
-      }
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-  // If the user does not have file!!
-  }
-} else if (payload === 'Third_V_DOC'){
-  if (document_category.length > 1){
-    s = "";
-    // Quick Relies Body :)
-    quick_replies = [];
-    for( i = 21 ; i < document_category.length ; ++i){
-      s += (document_category[i].S +"\n");
-      T = document_category[i];
-      path = documents[`${T.S}`].S;
-      quick_replies[i-11] = {"content_type":"text","title":`${document_category[i].S}`,"payload":`VIEW_D_${path}`}
-      if (i == 30){
-        i = document_category.length;
-      }
+      response = {"text": i18n.__("files.exists",{"s":s})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      response = {
+        "text":  i18n.__("files.instruction"), 
+        "quick_replies": quick_replies
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    // If the user does not have file!!
     }
-    // Adding Go back Button.
-    quick_replies[quick_replies.length] = {
-      "content_type":"text",
-      "title":i18n.__("menu.go_back"),
-      "payload":"SECOND_V_DOC"
-    }
+  } else if (payload === 'Third_V_DOC'){
+    if (document_category.length > 1){
+      s = "";
+      // Quick Relies Body :)
+      quick_replies = [];
+      for( i = 21 ; i < document_category.length ; ++i){
+        s += (document_category[i].S +"\n");
+        T = document_category[i];
+        path = documents[`${T.S}`].S;
+        quick_replies[i-11] = {"content_type":"text","title":`${document_category[i].S}`,"payload":`VIEW_D_${path}`}
+        if (i == 30){
+          i = document_category.length;
+        }
+      }
+      // Adding Go back Button.
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":i18n.__("menu.go_back"),
+        "payload":"SECOND_V_DOC"
+      }
 
-    response = {"text": `We have the following files:\n${s}`};
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-    response = {
-      "text":  i18n.__("files.instruction"), 
-      "quick_replies": quick_replies
+      response = {"text": i18n.__("files.exists",{"s":s})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      response = {
+        "text":  i18n.__("files.instruction"), 
+        "quick_replies": quick_replies
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }
+  } else if (payload === 'VIEW_FORMS'){
+    if (forms_category.length > 1){
+      s = "";
+      // Quick Relies Body :)
+      quick_replies = [];
+      for( i = 1 ; i < forms_category.length ; ++i){
+        s += (forms_category[i].S +"\n");
+        T = forms_category[i];
+        path = documents[`${T.S}`].S;
+        quick_replies[i-1] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
+        if (i == 10){
+          i = forms_category.length;
+        }
       }
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-  // If the user does not have file!!
-  }
-} else if (payload === 'VIEW_FORMS'){
+      // Adding Go back Button.
+      if (forms_category.length > 11){
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":"More Files",
+        "payload":"SECOND_V_FOR"
+      }}
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":i18n.__("menu.go_back"),
+        "payload":"FILES"
+      }
+
+      response = {"text": i18n.__("files.exists",{"s":s})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      response = {
+        "text":  i18n.__("files.instruction"), 
+        "quick_replies": quick_replies
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    // If the user does not have file!!
+    } else{
+      response = {
+        "text":  i18n.__("files.no_files"), 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"FILES"
+          }]
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }
+  // If the user want to see the FORMS files
+  } else if (payload === 'SECOND_V_FOR'){
   if (forms_category.length > 1){
     s = "";
     // Quick Relies Body :)
     quick_replies = [];
-    for( i = 1 ; i < forms_category.length ; ++i){
+    for( i = 11 ; i < forms_category.length ; ++i){
       s += (forms_category[i].S +"\n");
       T = forms_category[i];
       path = documents[`${T.S}`].S;
-      quick_replies[i-1] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
-      if (i == 10){
+      quick_replies[i-11] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
+      if (i == 20){
         i = forms_category.length;
       }
     }
     // Adding Go back Button.
-    if (forms_category.length > 11){
+    if (forms_category.length > 21){
     quick_replies[quick_replies.length] = {
       "content_type":"text",
       "title":"More Files",
-      "payload":"SECOND_V_FOR"
+      "payload":"THIRD_V_FOR"
     }}
     quick_replies[quick_replies.length] = {
       "content_type":"text",
       "title":i18n.__("menu.go_back"),
-      "payload":"FILES"
+      "payload":"VIEW_FORMS"
     }
 
-    response = {"text": `We have the following files:\n${s}`};
+    response = {"text": i18n.__("files.exists",{"s":s})};
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
     response = {
@@ -461,118 +507,118 @@ module.exports = async (sender_psid, webhook_event, application) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
   // If the user does not have file!!
-  } else{
+  }
+  } else if (payload === 'Third_V_FOR'){
+  if (forms_category.length > 1){
+    s = "";
+    // Quick Relies Body :)
+    quick_replies = [];
+    for( i = 21 ; i < forms_category.length ; ++i){
+      s += (forms_category[i].S +"\n");
+      T = forms_category[i];
+      path = documents[`${T.S}`].S;
+      quick_replies[i-11] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
+      if (i == 30){
+        i = forms_category.length;
+      }
+    }
+    // Adding Go back Button.
+    quick_replies[quick_replies.length] = {
+      "content_type":"text",
+      "title":i18n.__("menu.go_back"),
+      "payload":"SECOND_V_FOR"
+    }
+
+    response = {"text": i18n.__("files.exists",{"s":s})};
+    action = null;
+    state = await callSendAPI(sender_psid, response, action, app);
     response = {
-      "text":  i18n.__("You don't have any files yet."), 
-      "quick_replies":[
-        {
-          "content_type":"text",
-          "title":i18n.__("menu.go_back"),
-          "payload":"FILES"
-        }]
+      "text":  i18n.__("files.instruction"), 
+      "quick_replies": quick_replies
       }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
+  // If the user does not have file!!
   }
-// If the user want to see the FORMS files
-} else if (payload === 'SECOND_V_FOR'){
-if (forms_category.length > 1){
-  s = "";
-  // Quick Relies Body :)
-  quick_replies = [];
-  for( i = 11 ; i < forms_category.length ; ++i){
-    s += (forms_category[i].S +"\n");
-    T = forms_category[i];
-    path = documents[`${T.S}`].S;
-    quick_replies[i-11] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
-    if (i == 20){
-      i = forms_category.length;
-    }
-  }
-  // Adding Go back Button.
-  if (forms_category.length > 21){
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":"More Files",
-    "payload":"THIRD_V_FOR"
-  }}
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":i18n.__("menu.go_back"),
-    "payload":"VIEW_FORMS"
-  }
+  } else if (payload === 'VIEW_PASSPORTS'){
+    if (passport_category.length > 1){
+      s = "";
+      // Quick Relies Body :)
+      quick_replies = [];
+      for( i = 1 ; i < passport_category.length ; ++i){
+        s += (passport_category[i].S +"\n");
+        T = passport_category[i];
+        path = documents[`${T.S}`].S;
+        quick_replies[i-1] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
+        if (i == 10){
+          i = passport_category.length;
+        }
+      }
+      // Adding Go back Button.
+      if (passport_category.length > 11){
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":"More Files",
+        "payload":"SECOND_V_PPT"
+      }}
+      quick_replies[quick_replies.length] = {
+        "content_type":"text",
+        "title":i18n.__("menu.go_back"),
+        "payload":"FILES"
+      }
 
-  response = {"text": `We have the following files:\n${s}`};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  response = {
-    "text":  i18n.__("files.instruction"), 
-    "quick_replies": quick_replies
+      response = {"text": i18n.__("files.exists",{"s":s})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      response = {
+        "text":  i18n.__("files.instruction"), 
+        "quick_replies": quick_replies
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    // If the user does not have file!!
+    } else{
+      response = {
+        "text":  i18n.__("files.no_files"), 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"FILES"
+          }]
+        }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
     }
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-// If the user does not have file!!
-}
-} else if (payload === 'Third_V_FOR'){
-if (forms_category.length > 1){
-  s = "";
-  // Quick Relies Body :)
-  quick_replies = [];
-  for( i = 21 ; i < forms_category.length ; ++i){
-    s += (forms_category[i].S +"\n");
-    T = forms_category[i];
-    path = documents[`${T.S}`].S;
-    quick_replies[i-11] = {"content_type":"text","title":`${forms_category[i].S}`,"payload":`VIEW_F_${path}`}
-    if (i == 30){
-      i = forms_category.length;
-    }
-  }
-  // Adding Go back Button.
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":i18n.__("menu.go_back"),
-    "payload":"SECOND_V_FOR"
-  }
-
-  response = {"text": `We have the following files:\n${s}`};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  response = {
-    "text":  i18n.__("files.instruction"), 
-    "quick_replies": quick_replies
-    }
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-// If the user does not have file!!
-}
-} else if (payload === 'VIEW_PASSPORTS'){
+  // If the user want to see the FORMS files
+  } else if (payload === 'SECOND_V_PPT'){
   if (passport_category.length > 1){
     s = "";
     // Quick Relies Body :)
     quick_replies = [];
-    for( i = 1 ; i < passport_category.length ; ++i){
+    for( i = 11 ; i < passport_category.length ; ++i){
       s += (passport_category[i].S +"\n");
       T = passport_category[i];
       path = documents[`${T.S}`].S;
-      quick_replies[i-1] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
-      if (i == 10){
+      quick_replies[i-11] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
+      if (i == 20){
         i = passport_category.length;
       }
     }
     // Adding Go back Button.
-    if (passport_category.length > 11){
+    if (passport_category.length > 21){
     quick_replies[quick_replies.length] = {
       "content_type":"text",
       "title":"More Files",
-      "payload":"SECOND_V_PPT"
+      "payload":"THIRD_V_PPT"
     }}
     quick_replies[quick_replies.length] = {
       "content_type":"text",
       "title":i18n.__("menu.go_back"),
-      "payload":"FILES"
+      "payload":"VIEW_PASSPORTS"
     }
 
-    response = {"text": `We have the following files:\n${s}`};
+    response = {"text": i18n.__("files.exists",{"s":s})};
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
     response = {
@@ -582,97 +628,49 @@ if (forms_category.length > 1){
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
   // If the user does not have file!!
-  } else{
+  }
+  } else if (payload === 'Third_V_PPT'){
+  if (passport_category.length > 1){
+    s = "";
+    // Quick Relies Body :)
+    quick_replies = [];
+    for( i = 21 ; i < passport_category.length ; ++i){
+      s += (passport_category[i].S +"\n");
+      T = passport_category[i];
+      path = documents[`${T.S}`].S;
+      quick_replies[i-11] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
+      if (i == 30){
+        i = passport_category.length;
+      }
+    }
+    // Adding Go back Button.
+    quick_replies[quick_replies.length] = {
+      "content_type":"text",
+      "title":i18n.__("menu.go_back"),
+      "payload":"SECOND_V_PPT"
+    }
+
+    response = {"text": i18n.__("files.exists",{"s":s})};
+    action = null;
+    state = await callSendAPI(sender_psid, response, action, app);
     response = {
-      "text":  i18n.__("You don't have any files yet."), 
-      "quick_replies":[
-        {
-          "content_type":"text",
-          "title":i18n.__("menu.go_back"),
-          "payload":"FILES"
-        }]
+      "text":  i18n.__("files.instruction"), 
+      "quick_replies": quick_replies
       }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
   }
-// If the user want to see the FORMS files
-} else if (payload === 'SECOND_V_PPT'){
-if (passport_category.length > 1){
-  s = "";
-  // Quick Relies Body :)
-  quick_replies = [];
-  for( i = 11 ; i < passport_category.length ; ++i){
-    s += (passport_category[i].S +"\n");
-    T = passport_category[i];
-    path = documents[`${T.S}`].S;
-    quick_replies[i-11] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
-    if (i == 20){
-      i = passport_category.length;
-    }
-  }
-  // Adding Go back Button.
-  if (passport_category.length > 21){
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":"More Files",
-    "payload":"THIRD_V_PPT"
-  }}
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":i18n.__("menu.go_back"),
-    "payload":"VIEW_PASSPORTS"
-  }
-
-  response = {"text": `We have the following files:\n${s}`};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  response = {
-    "text":  i18n.__("files.instruction"), 
-    "quick_replies": quick_replies
-    }
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-// If the user does not have file!!
-}
-} else if (payload === 'Third_V_PPT'){
-if (passport_category.length > 1){
-  s = "";
-  // Quick Relies Body :)
-  quick_replies = [];
-  for( i = 21 ; i < passport_category.length ; ++i){
-    s += (passport_category[i].S +"\n");
-    T = passport_category[i];
-    path = documents[`${T.S}`].S;
-    quick_replies[i-11] = {"content_type":"text","title":`${passport_category[i].S}`,"payload":`VIEW_P_${path}`}
-    if (i == 30){
-      i = passport_category.length;
-    }
-  }
-  // Adding Go back Button.
-  quick_replies[quick_replies.length] = {
-    "content_type":"text",
-    "title":i18n.__("menu.go_back"),
-    "payload":"SECOND_V_PPT"
-  }
-
-  response = {"text": `We have the following files:\n${s}`};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  response = {
-    "text":  i18n.__("files.instruction"), 
-    "quick_replies": quick_replies
-    }
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-// If the user does not have file!!
-}} else if (payload.includes('VIEW')){
+  } else if (payload.includes('VIEW')){
     trim = payload.substring(7);
+    console.log(trim);
+    lk = join.join(__dirname,(`../../${trim}`))
+    console.log(lk);
     check = payload.substring(5,6);
     response = null;
     action = null;
-    state = await callSendAPI(sender_psid, response, action, app, trim);
+    state = await callSendAPI(sender_psid, response, action, app, lk);
     if (check === "D"){
-    response = {"text":"Please click on the file to open it.\nAlso, you can choose other options from below:",
+    response = {"text":i18n.__("files.display"),
     "quick_replies":[
       {
         "content_type":"text",
@@ -696,7 +694,7 @@ if (passport_category.length > 1){
         "payload":"FILES"
       }]
     }} else {
-      response = {"text":"Please click on the file to open it.",
+      response = {"text":i18n.__("files.open"),
       "quick_replies":[
         {
           "content_type":"text",
@@ -707,7 +705,7 @@ if (passport_category.length > 1){
     }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
-  
+  // If the user click Notify Me
   } else if (payload === "NOTIFY_ME"){
     response = {"attachment": {
       "type":"template",
@@ -721,12 +719,12 @@ if (passport_category.length > 1){
     state = await callSendAPI(sender_psid, response, action, "inbox");
   } else if (payload.includes("TRANSLATE")){
     if(translate_limit == 0){ 
-      response = {"text":"No more balance"};
+      response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     } else {
     response = {
-      "text":  i18n.__("Please select one of the supported languages!"), 
+      "text": i18n.__("menu.select_language"), 
       "quick_replies":[
         {
           "content_type":"text",
@@ -779,7 +777,7 @@ if (passport_category.length > 1){
     }
   } else if (payload.includes("AUDIO")){
     if(audio_limit == 0){ 
-      response = {"text":"No more balance"};
+      response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     } else{
@@ -789,7 +787,7 @@ if (passport_category.length > 1){
       po = await audio(`${getPath}`, sender_psid, 'Kimberly');
       await sleep(500);
       // Sending the Audio file to the user.
-      response = { "text":"Here is the audio file!"};
+      response = { "text":i18n.__("menu.audio_file")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
       fileN= `./files/${sender_psid}/audio.mp3`;
@@ -813,7 +811,7 @@ if (passport_category.length > 1){
       po = await audio(`${getPath}`, sender_psid, 'Zeina');
       await sleep(500);
       // Sending the Audio file to the user.
-      response = { "text":"Here is the audio file!"};
+      response = { "text":i18n.__("menu.audio_file")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
       fileN= `./files/${sender_psid}/audio_translation.mp3`;
@@ -836,7 +834,7 @@ if (passport_category.length > 1){
       po = await audio(`${getPath}`, sender_psid, 'Zhiyu');
       await sleep(500);
       // Sending the Audio file to the user.
-      response = { "text":"Here is the audio file!"};
+      response = { "text":i18n.__("menu.audio_file")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
       fileN= `./files/${sender_psid}/audio_translation.mp3`;
@@ -859,12 +857,13 @@ if (passport_category.length > 1){
   }
   } else if (payload.includes("LEARN_MORE")){
     if(learn_more_limit == 0){ 
-      response = {"text":"No more balance"};
+      response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
     } else{
       getPath = payload.substring(11);
-      await fs.readFile(getPath, 'utf8', async function (err,data) {
+      ln = join.join(__dirname,`../../${getPath}`)
+      await fs.readFile(ln, 'utf8', async function (err,data) {
         if (err) {
           return console.log(err);
         }
@@ -913,7 +912,7 @@ if (passport_category.length > 1){
             action = null;
             state = await callSendAPI(sender_psid, response, action, app);
             }else{
-              response = {"text":"Nothing Found"};
+              response = {"text":i18n.__("menu.no_data")};
               action = null;
               state = await callSendAPI(sender_psid, response, action, app);
             }
@@ -922,7 +921,7 @@ if (passport_category.length > 1){
             refresh = await updateLimit(sender_psid,"Learn_More_Limit", learn_more_limit);
             quick_replies = [];
             if (res.body.annotations.length > 11){
-              quick_replies[quick_replies.length] = { "content_type":"text" , "title":"More Topics" , "payload":`LEARN_M_2_${getPath}`} 
+              quick_replies[quick_replies.length] = { "content_type":"text" , "title":i18n.__("menu.more_topics") , "payload":`LEARN_M_2_${getPath}`} 
             }
             quick_replies[quick_replies.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
             response = {"text":i18n.__("menu.learn",{learn_more_limit:`${learn_more_limit}`}), 
@@ -936,7 +935,8 @@ if (passport_category.length > 1){
     }
   } else if (payload.includes("LEARN_M_2")){
     getPath = payload.substring(10);
-    await fs.readFile(getPath, 'utf8', async function (err,data) {
+    ln = join.join(__dirname,`../../${getPath}`)
+    await fs.readFile(ln, 'utf8', async function (err,data) {
       if (err) {
         return console.log(err);
       }
@@ -987,10 +987,10 @@ if (passport_category.length > 1){
         
           quick_replies2 = [];
           if (res.body.annotations.length > 21){
-            quick_replies2[quick_replies2.length] = { "content_type":"text" , "title":"More Topics" , "payload":`LEARN_M_3_${getPath}`} 
+            quick_replies2[quick_replies2.length] = { "content_type":"text" , "title":i18n.__("menu.more_topics") , "payload":`LEARN_M_3_${getPath}`} 
           }
           quick_replies2[quick_replies2.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
-          response = {"text":  i18n.__("If there 66666 is topics, click learn more to read about the topic!"), 
+          response = {"text":  i18n.__("menu.learn_more_instruction"), 
           "quick_replies":quick_replies2
           }
         action = null;
@@ -998,7 +998,7 @@ if (passport_category.length > 1){
         } else{
           quick_replies3 = [];
           quick_replies3[quick_replies3.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
-          response = {"text":  i18n.__("Nothing Found!"), 
+          response = {"text":  i18n.__("menu.no_data"), 
           "quick_replies":quick_replies3
           }
           action = null;
@@ -1008,105 +1008,107 @@ if (passport_category.length > 1){
 
     });
 
-} else if (payload.includes("LEARN_M_3")){
-  getPath = payload.substring(10);
-  await fs.readFile(getPath, 'utf8', async function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-    var req = unirest("POST", "https://dandelion-datatxt.p.rapidapi.com/nex/v1/");
-    req.headers({
-      "x-rapidapi-host": "dandelion-datatxt.p.rapidapi.com",
-      "x-rapidapi-key": "1390cea5damshd570a5f82509daep1cb503jsncbc3c74853d5",
-      "content-type": "application/x-www-form-urlencoded",
-      "useQueryString": true
-    });
-    
-    req.form({
-      "text": data,
-      "min_confidence": "0.6",
-      "include": "types, categories, abstract, lod, image, alternate_labels",
-      "min_length": "2",
-      "lang": "en"
-    });
-    
-    req.end(async function (res) {
-      if (res.error) throw new Error(res.error);
-      elements = [];
-      for( i = 20 ; i < 30 ; ++i){
+  } else if (payload.includes("LEARN_M_3")){
+    getPath = payload.substring(10);
+    ln = join.join(__dirname,`../../${getPath}`)
+    await fs.readFile(ln, 'utf8', async function (err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      var req = unirest("POST", "https://dandelion-datatxt.p.rapidapi.com/nex/v1/");
+      req.headers({
+        "x-rapidapi-host": "dandelion-datatxt.p.rapidapi.com",
+        "x-rapidapi-key": "1390cea5damshd570a5f82509daep1cb503jsncbc3c74853d5",
+        "content-type": "application/x-www-form-urlencoded",
+        "useQueryString": true
+      });
+      
+      req.form({
+        "text": data,
+        "min_confidence": "0.6",
+        "include": "types, categories, abstract, lod, image, alternate_labels",
+        "min_length": "2",
+        "lang": "en"
+      });
+      
+      req.end(async function (res) {
+        if (res.error) throw new Error(res.error);
+        elements = [];
+        for( i = 20 ; i < 30 ; ++i){
+          if (res.body.annotations[i] && res.body.annotations[i].title && res.body.annotations[i].lod.wikipedia && res.body.annotations[i].abstract){
+          title = res.body.annotations[i].title;
+          ur = res.body.annotations[i].lod.wikipedia;
+          uri = res.body.annotations[i].lod.wikipedia.substring(0,4) + "s" + res.body.annotations[i].lod.wikipedia.substring(4);
+          abstract = res.body.annotations[i].abstract;
+          if (res.body.annotations[i].image.thumbnail){
+            image = res.body.annotations[i].image.thumbnail;
+          } else {
+            image = `${process.env.URL}/general.jpg`;
+          }
+          elements[elements.length]={"title": title , "image_url":image , "subtitle":abstract, "default_action": {"type": "web_url","url": `${uri}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":uri,"title":"Learn More"}]}
+        }}
         if (res.body.annotations[i] && res.body.annotations[i].title && res.body.annotations[i].lod.wikipedia && res.body.annotations[i].abstract){
-        title = res.body.annotations[i].title;
-        ur = res.body.annotations[i].lod.wikipedia;
-        uri = res.body.annotations[i].lod.wikipedia.substring(0,4) + "s" + res.body.annotations[i].lod.wikipedia.substring(4);
-        abstract = res.body.annotations[i].abstract;
-        if (res.body.annotations[i].image.thumbnail){
-          image = res.body.annotations[i].image.thumbnail;
-        } else {
-          image = `${process.env.URL}/general.jpg`;
-        }
-        elements[elements.length]={"title": title , "image_url":image , "subtitle":abstract, "default_action": {"type": "web_url","url": `${uri}`,"messenger_extensions": "true","webview_height_ratio": "full"},"buttons":[{"type":"web_url","url":uri,"title":"Learn More"}]}
-      }}
-      if (res.body.annotations[i] && res.body.annotations[i].title && res.body.annotations[i].lod.wikipedia && res.body.annotations[i].abstract){
-        response = { 
-                "attachment":{
-                  "type":"template",
-                  "payload":{
-                    "template_type":"generic",
-                    "elements": elements
+          response = { 
+                  "attachment":{
+                    "type":"template",
+                    "payload":{
+                      "template_type":"generic",
+                      "elements": elements
+                    }
                   }
-                }
-            }
+              }
+          action = null;
+          state = await callSendAPI(sender_psid, response, action, app);
+          quick_replies3 = [];
+          quick_replies3[quick_replies3.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
+          response = {"text":  i18n.__("menu.learn_more_instruction"), 
+          "quick_replies":quick_replies3
+          }
         action = null;
         state = await callSendAPI(sender_psid, response, action, app);
-          
-        response = {"text":  i18n.__("If there is topics, click learn more to read about the topic!"), 
-        "quick_replies":quick_replies3
+        }else{
+          quick_replies3 = [];
+          quick_replies3[quick_replies3.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
+          response = {"text": i18n.__("menu.no_data"), 
+          "quick_replies":quick_replies3
+          }
+          action = null;
+          state = await callSendAPI(sender_psid, response, action, app);
+        }
+      });
+
+    });
+
+  } else if (payload.includes("SUMMARY")){
+    if(summary_limit == 0){ 
+      response = {"text": i18n.__("menu.no_more_balance")};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    } else{
+      response = {
+        "text":  i18n.__("menu.summary_instrunction"), 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":"75%",
+            "payload":`PERS_75_${payload.substring(8)}`
+          }, {
+            "content_type":"text",
+            "title":"50%",
+            "payload":`PERS_50_${payload.substring(8)}`
+          }, {
+            "content_type":"text",
+            "title":"25%",
+            "payload":`PERS_25_${payload.substring(8)}`
+          }, {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"FILES"
+          }]
         }
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
-      }else{
-        quick_replies3 = [];
-        quick_replies3[quick_replies3.length] = { "content_type":"text" , "title":i18n.__("menu.go_back") , "payload":"FILES"}
-        response = {"text":  i18n.__("Nothing Found!"), 
-        "quick_replies":quick_replies3
-        }
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);
-      }
-    });
-
-  });
-
-} else if (payload.includes("SUMMARY")){
-  if(summary_limit == 0){ 
-    response = {"text":"No more balance"};
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-  } else{
-    response = {
-      "text":  i18n.__("Please select how you want to summarize the text!"), 
-      "quick_replies":[
-        {
-          "content_type":"text",
-          "title":"75%",
-          "payload":`PERS_75_${payload.substring(8)}`
-        }, {
-          "content_type":"text",
-          "title":"50%",
-          "payload":`PERS_50_${payload.substring(8)}`
-        }, {
-          "content_type":"text",
-          "title":"25%",
-          "payload":`PERS_25_${payload.substring(8)}`
-        }, {
-          "content_type":"text",
-          "title":i18n.__("menu.go_back"),
-          "payload":"FILES"
-        }]
-      }
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-  }
+    }
   } else if (payload.includes("LANG")){
     getLang = "";
     getPath = "";
@@ -1131,20 +1133,32 @@ if (passport_category.length > 1){
         }
       }
     }
-    await fs.readFile(getPath, 'utf8', async function (err,data) {
+    await fs.readFile(join.join(getPath), 'utf8', async function (err,data) {
       if (err) {
         return console.log(err);
       }
       await sleep(500);
       state = await translateText(sender_psid, data, getLang);
+      await sleep(600);
     });
-    await sleep(500);
+    await sleep(600);
+    // Sending the main index Page //  
+    application.get(`/${sender_psid}`, function(request, response) {
+      path = request.path;
+      referer = request.headers.referer;
+      if(!referer){
+      response.render(`not_found`);
+    }else if (path.includes(`${id}`) && (referer.includes("facebook") || referer.includes("messenger") || referer.includes("fb"))){
+      response.render(`${sender_psid}`);
+    }
+    });
+
     response = { 
       "attachment":{
         "type":"template",
         "payload":{
           "template_type":"button",
-          "text":"Translation!",
+          "text": i18n.__("menu.translation_file"),
           "buttons":[
             {
               "type":"web_url",
@@ -1191,20 +1205,10 @@ if (passport_category.length > 1){
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
 
-    // Sending the main index Page //  
-    application.get(`/${sender_psid}`, function(request, response) {
-      path = request.path;
-      referer = request.headers.referer;
-      if(!referer){
-      response.render(`not_found`);
-    }else if (path.includes(`${id}`) && (referer.includes("facebook") || referer.includes("messenger") || referer.includes("fb"))){
-      response.render(`${sender_psid}`);
-    }
-    });
   } else if (payload.includes("PERS")){
     getPers = payload.substring(5,7);
     getPath = payload.substring(8);
-    response = { "text":`Here is the summary file!`};
+    response = { "text":i18n.__("menu.summary_file")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
     await fs.readFile(getPath, 'utf8', async function (err,data) {
@@ -1213,12 +1217,13 @@ if (passport_category.length > 1){
       }
       await sleep(500);
       state = await summarizeText(sender_psid, data, getPers);
+      await sleep(500);
     });
-    await sleep(500);
+    await sleep(600);
     refresh = await updateState(sender_psid, "general_state", app, "summary online");
     --summary_limit;
     refresh = await updateLimit(sender_psid,"Summary_Limit", summary_limit);
-    fileN=(`./files/${sender_psid}/summary.txt`)
+    fileN= `./files/${sender_psid}/summary.txt`
     response = null;
     action = null;
     await callSendAPI(sender_psid, response, action, app, fileN);

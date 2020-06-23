@@ -6,6 +6,7 @@ i18n = require("i18n"),
 updateCheck = require("../database/updateCheck"),
 updateState = require("../database/update_state"),
 updateData = require("../database/update_data"),
+notification = require("./OTN"),
 imageToText = require("../other/image_to_text"),
 updateCategory = require("../database/update_category"),
 updateLimit = require("../database/update_limit"),
@@ -218,7 +219,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
         response =  { "text":i18n.__("documents.category",{cat :`${cat}`})};
         action = null;
         state = await callSendAPI(sender_psid, response, action, app);
-        response = { "text":"Here is the text file!"};
+        response = { "text":i18n.__("menu.text_file")};
         action = null;
         state = await callSendAPI(sender_psid, response, action, app);
         t = updateData([`${sender_psid}`, `${image_count}_${cat}`,`./files/${sender_psid}/documents/${image_count}_${cat}.txt`]);  

@@ -1,74 +1,96 @@
 {
-	"passport": {
-		"first_intro": "You can send us an image of a passport and we will extract the data and save it in your personal storage if it is valid and we can read it!",
-		"first_intro2": "Please make sure it is an image of a passport!\nTo start, please send an Image!",
-		"saved_name": "We found the following name: {{name}}.We saved the files under passports => {{image_count}}_{{name}}",
-		"no_name": "We didn't find any name. We saved the file under passports => {{image_count}}_other",
-		"file": "Here is the text file!",
-		"failed": "This end point failed! Please try a different passport image or process the image as a Form!\nSorry for any inconvenience!"
-	},
 	"menu": {
-		"go_back": "Go Back",
-		"welcome": "Hi {{first_name}}. I am Data Extractor Bot. I can extract data from a Form or a Passport Image. To start please select from below:",
-		"image_to_text": "Image To Text",
-		"passport": "Passport Image",
-		"form": "Form Image",
-		"smart_documents": "Smart Documents",
-		"notify_me": "Notify Me",
-		"data_extractor": "Data Extractor",
-		"first_welcome": "Hi {{first_name}}. I am Smart Documents Bot. I can extract data from a Form or a Passport Image.\nAlso, I can translate, summarize, and genereate audio.",
-		"first_welcome2": "Moreover, I can provide resources to learn more about the scanned images or documents.\nTo start, Please choose from below:",
-		"cannot_recognize": "Sorry, We cannot recognize '{{text}}'. Here is the main menu.",
-		"one_file": "You can work only on one file at a moment. Please send only one Image!",
-		"when_prompted": "You can only send attachments when prompted!",
-		"no_balance": "You have used all you allowed tries. Pease wait till next month!",
-		"no_jpg": "We can extract text from JPG images only. Please send an image file!",
-		"received": "Image Received, please wait!",
-		"scans": "You have scanned {{image_count}} images so far. You still have {{textract_limit}} scans for this month!",
-		"view_documents": "Documents Files",
-		"view_forms": "Forms Files",
-		"view_passports": "Passport Files",
-		"files": "You can see your files here in categories!!",
-		"translate": "Translate",
-		"summarize": "Summarize",
-		"audio": "Generate Audio",
-		"learn_more": "Learn More 📚",
-		"my_files": "My Files",
-		"learn": "menu.learn",
-		"translation": "menu.translation"
-	},
-	"forms": {
-		"failed": "This File failed! This could be because of the Network, the image does not contain text, or it is low resolution. \nPlease try again or try a different image!",
-		"category": "We saved the files under forms => category name: {{cat}}",
-		"file": "Here is the text file!",
-		"first_intro": "You can send us an image of a form or a document with data and we will extract the data and save it in your personal storage!",
-		"first_intro2": "Please make sure it is an image with information fields!\nTo start, please send an Image!"
-	},
-	"image-to-text": {
-		"instruction": "Moreover, I can summarize, translate, generate audio, and offer links to learn more about the topics.\nTo start please send an image with 'English' Text!",
-		"first_intro": "I am your Smart Documents Bot. You can send me an image of a text and I will generate text from it."
+		"first_welcome": "مرحبًا {{first_name}}. أنا بوت المستندات الذكية. يمكنني استخراج نص 'إنجليزي' من صورة. \n أيضًا ، يمكنني تلخيص النص أو ترجمته ؛ وتوليد النص أو الترجمة الصوتية.",
+		"first_welcome2": "أخيرًا ، يمكنني توفير الموارد لمعرفة المزيد حول الموضوعات الممسوحة ضوئيًا. \n للبدء ، يرجى الاختيار من أدناه:",
+		"image_to_text": "صور الي نصوص",
+		"my_files": "ملفاتي",
+		"notify_me": "اشعارات",
+		"data_extractor": "مستخرج البيانات",
+		"back_to_bot": "مرحبا مره اخري في البوت الرئيسي!",
+		"cannot_recognize": "عذرًا ، لا يمكنني التعرف على '{{text}}'. ها هي القائمة الرئيسية!",
+		"will_notify": "سنقوم بإعلامك في المستقبل عندما يكون لدينا أي تحديثات! \n أيضًا ، سنقوم بإعلامك قبل نهاية الشهر لحفظ ملفاتك!",
+		"go_back": "الرجوع للخلف",
+		"when_prompted": "يمكنك إرسال المرفقات فقط عندما يطلب التطبيق!",
+		"received": "تم استلام الصوره!",
+		"not_good": "لم ألتقط هذا الملف! يرجى المحاولة مرة أخرى والتأكد من أنها صورة وتحتوي على نص 'إنجليزي'!",
+		"one_file": "يمكنك إرسال 'صورة واحده' فقط. يرجى إرسال صوره واحده ",
+		"no_balance": "لقد استخدمت كل نقاطك. يرجى الانتظار حتى الشهر المقبل!",
+		"no_jpg": "I can extract text from JPG images only. Please send a JPG image file!",
+		"scans": "لقد قمت بمسح صور '{{image_count}}' حتى الآن. لا يزال لديك عمليات مسح `{{textract_limit}}` لهذا الشهر!",
+		"learn_more": "تعلم المزيد",
+		"translate": "ترجم",
+		"summarize": "ملخص",
+		"audio": "صوت",
+		"learn": "لا يزال لديك `{{learn_more_limit}}` تعرف على المزيد من النقاط لهذا الشهر!",
+		"files": "يرجى تحديد فئة من الاسفل",
+		"view_documents": "الملفات",
+		"view_forms": "المستندات",
+		"view_passports": "جوازات السفر",
+		"welcome": "مرحبًا {{first_name}}. أنا بوت مستخرج البيانات. يمكنني استخراج البيانات من نموذج أو صورة جواز السفر. للبدء ، يرجى التحديد من أدناه:",
+		"passport": "مستخرج جواز السفر",
+		"form": "مستخرج المستندات",
+		"smart_documents": "المستندات الذكيه",
+		"wait": "يرجى الانتظار حتى الانتهاء من خدمة العملاء!",
+		"connected": "أنت متصل بالفعل بخدمة العملاء!",
+		"balance": "لديك '{{files}}' ملف في حافظتك.\nمتبقي لديك هذه النقاط لباقي الشهر:\n1) مسح صور: '{{textract_limit}}'💰.\n2) ترجمه نصوص: '{{translation_limit}}'💰.\n3) تعلم المزيد: '{{learn_more_limit}}'💰.\n4) تلخيص نصوص: '{{summary_limit}}'💰.\n5)انتاج صوت: '{{audio_limit}}'.💰",
+		"balance_updated": "نعيد تحميل الرصيد وحذف الملفات كل شهر!",
+		"balance_end": "ابق على اطلاع من خلال الانتقال إلى الاشعارات واشترك للحصول على إشعار قبل حذف الملفات وإعادة تحميل الرصيد. \n إذا كنت بحاجة إلى المزيد من النقاط مبكرًا ، فيرجى الاتصال بخدمة العملاء!",
+		"under_development": "هذا التطبيق لا يزال قيد التطوير !!",
+		"smart_helper": "سوف تكون قادرًا على التواصل مع الروبوتات وطرح الأسئلة بالنص والصوت !!",
+		"soon": "الرجاء التحقق مرة أخرى قريبًا. \n أيضًا ، يمكنك الانتقال إلى الاشعارات وسنقوم بإعلامك عندما يصبح جاهزًا!",
+		"no_data": "لا توجد بيانات للعمل معها!",
+		"no_more_balance": "لم يتبق لديك المزيد من النقاط! \n الرجاء الانتظار حتى الشهر القادم!",
+		"translation": "لا يزال لديك نقاط ترجمة '{{translate_limit}}' لهذا الشهر!",
+		"audio_balance": "لا يزال لديك '{{audio_limit}}' لتوليد الصوت لهذا الشهر!",
+		"summary_balance": "لا يزال لديك تلخيص النص '{{summary_limit}}' لهذا الشهر!",
+		"select_language": "يرجى تحديد إحدى اللغات المدعومة!",
+		"summary_instruction": "جى تحديد كيف تريد تلخيص النص!",
+		"audio_file": "هنا الملف الصوتي!",
+		"translation_file": "الترجمه",
+		"summary_file": "هنا ملف الترجمه",
+		"text_file": "هنا الملف النصي!",
+		"customer_service": "خدمه العملاء",
+		"more_topics": "المزيد",
+		"learn_more_instruction": "انقر علي الرابط لتعلم المزيد!",
+		"summary_instrunction": "يرجي اختيار نسبه تلخيص من الاسفل"
 	},
 	"get_started": {
-		"second_welcome": "We have some Applications that could help you!",
-		"first_welcome": "Hi, and welcome to your smart place."
+		"first_welcome": "مرحبًا بك في المكان الذكي الذي تم تصميمه لمساعدتك في العديد من المهام وجعل حياتك أسهل كثيرًا! \n نستخدم الذكاء الاصطناعي لاستخراج نص 'اللغة الإنجليزية' من الصور ، ثم نقوم بالكثير مع النص الذي تم إنشاؤه !!",
+		"second_welcome": "سيكون لديك رصيد وتخزين شخصي خاص تمامًا. التخزين والرصيد 'إعادة التعيين كل شهر' ، لذا يرجى استخدام النقاط بحكمة !! \n أيضًا ، انقر فوق 'الاشعارات' ، وسنذكرك قبل حذف الملفات بحلول نهاية الشهر أو إذا أطلقنا تطبيقات جديدة !!"
 	},
-	"files": {
-		"instruction": "Click the name of the file to open it.",
-		"main_instruction": "You can see your Files here in categories!"
+	"image-to-text": {
+		"instruction": "بعد ذلك ، سيكون لديك بعض الخيارات الرائعة للنص الذي تم إنشاؤه. \n في البداية ، يرجى إرسال صورة تحتوي على نص 'إنجليزي'!",
+		"first_intro": "أنا بوت المستندات الذكية. يمكنك أن ترسل لي صورة وسأستخرج النص منها!"
 	},
 	"documents": {
-		"category": "We saved the files under documents => category name: {{cat}}"
+		"category": "قمت بحفظ الملفات تحت الملفات => باسم: {{cat}}"
 	},
-	"Please select one of the supported languages!": "Please select one of the supported languages!",
-	"Please click on the file to open it": {
-		"\nThank you so much!": "Please click on the file to open it.\nThank you so much!"
+	"files": {
+		"instruction": "انقر فوق اسم الملف لإحضار الملف",
+		"exists": "لدينا الملفات التالية في هذا القسم: \n {{s}}",
+		"no_files": "ليس لديك أي ملفات حتى الآن!",
+		"display": "انقر فوق الملف لفتحه. \n أيضًا ، يمكنك تحديد خيار من أدناه:",
+		"open": "انقر فوق الملف لفتحه."
 	},
-	"You don't have any files yet.": "You don't have any files yet.",
-	"smart_helper": {
-		"go_back": "smart_helper.go_back"
+	"inbox": {
+		"instruction1": "يتم نقلك إلى البريد الوارد ولا يمكنك التواصل مع برامج الروبوت بعد الآن.",
+		"instruction2": "بعد الانتهاء من المحادثة مع خدمة العملاء ، سينقلك مندوب خدمة العملاء إلى برنامج Bot الرئيسي.",
+		"instruction3": "إذا لم يكن هناك رد من خدمة العملاء ، يرجى ترك رسالتك وسوف يعودون إليك قريبًا!",
+		"instruction4": "إذا كنت تريد الانتقال إلى البوت الرئيسي في أي وقت ، فقط أرسل (#back to bot). من فضلك لا تنسى '#'."
 	},
-	"Please select how you want to summarize the text!": "Please select how you want to summarize the text!",
-	"Click learn more!": "Click learn more!",
-	"If there is topics, click learn more to read about the topic!": "If there is topics, click learn more to read about the topic!",
-	"We will notify you in the future once we released new Apps!!\nThanks for your interest!": "We will notify you in the future once we released new Apps!!\nThanks for your interest!"
+	"passport": {
+		"first_intro": "يمكنك أن ترسل لي صورة جواز سفر وسأقوم باستخراج البيانات وحفظها في مخزنك الشخصي إذا كانت صالحة ويمكنني قراءتها!",
+		"first_intro2": "يرجى التأكد من أنها صورة لجواز السفر! \ns للبدء ، يرجى إرسال صورة!",
+		"saved_name": "لقد وجدت الاسم التالي: {{name}}. \n لقد حفظت الملفات تحت جوازات السفر => {{image_count}} _ {{name}}",
+		"no_name": "لم أجد أي اسم. قمت بحفظ الملف تحت جوازات السفر => {{image_count}} _ أخرى",
+		"file": "هنا الملف النصي!",
+		"failed": "فشلت نقطة النهاية هذه! يرجى المحاولة مرة أخرى أو تجربة صورة جواز سفر مختلفة. إذا لم يفلح ذلك ، يرجى معالجة الصورة كنموذج! \n نأسف لأي إزعاج!"
+	},
+	"forms": {
+		"failed": "فشلت هذه الصورة! قد يكون هذا بسبب الشبكة ، أو أن الصورة لا تحتوي على نص ، أو أنها ذات دقة منخفضة. \n يرجى المحاولة مرة أخرى أو تجربة صورة مختلفة!",
+		"category": "قمت بحفظ الملفات تحت النماذج => اسم الفئة: {{cat}}",
+		"file": "هنا الملف النصي!",
+		"first_intro": "يمكنك أن ترسل لي صورة لنموذج أو مستند يحتوي على بيانات وسأقوم باستخراج البيانات وحفظها في مخزنك الشخصي!",
+		"first_intro2": "لرجاء التأكد من أنها صورة تحتوي على حقول معلومات! \n في البداية ، الرجاء إرسال صورة!"
+	}
 }

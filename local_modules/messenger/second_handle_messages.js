@@ -98,7 +98,7 @@ module.exports = async (sender_psid, webhook_event) => {
         "quick_replies":[
           {
             "content_type":"text",
-            "title":i18n.__("smart_helper.go_back"),
+            "title":i18n.__("menu.go_back"),
             "payload":"MENU"
           }]
         }
@@ -344,12 +344,12 @@ module.exports = async (sender_psid, webhook_event) => {
         "quick_replies":[
           {
             "content_type":"text",
-            "title":i18n.__("menu.passport"),
-            "payload":"PASSPORT"
-          },{
-            "content_type":"text",
             "title":i18n.__("menu.form"),
             "payload":"FORM"
+          },{
+            "content_type":"text",
+            "title":i18n.__("menu.passport"),
+            "payload":"PASSPORT"
           },{
             "content_type":"text",
             "title":i18n.__("menu.smart_documents"),

@@ -41,7 +41,7 @@ module.exports = async (sender_psid, webhook_event) => {
       "type":"template",
       "payload": {
       "template_type":"one_time_notif_req",
-      "title":"Notify Me When there is New Features Released!!",
+      "title":"Kepp me updated!!",
       "payload":"APPROVED"
       }
     }}
@@ -108,12 +108,12 @@ module.exports = async (sender_psid, webhook_event) => {
         "quick_replies":[
           {
             "content_type":"text",
-            "title":i18n.__("menu.passport"),
-            "payload":"PASSPORT"
-          },{
-            "content_type":"text",
             "title":i18n.__("menu.form"),
             "payload":"FORM"
+          },{
+            "content_type":"text",
+            "title":i18n.__("menu.passport"),
+            "payload":"PASSPORT"
           },{
             "content_type":"text",
             "title":i18n.__("menu.smart_documents"),

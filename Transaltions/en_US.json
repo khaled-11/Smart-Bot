@@ -7,38 +7,91 @@
 		"notify_me": "Notify Me",
 		"data_extractor": "Data Extractor",
 		"back_to_bot": "You are back to the main Bot!",
-		"cannot_recognize": "Sorry, we cannot recognize '{{text}}'. Here is the main menu!",
+		"cannot_recognize": "Sorry, I cannot recognize '{{text}}'. Here is the main menu!",
 		"will_notify": "We will notify you in the future when we have any updates!\nAlso, we will notify you before the end of the month to save your files!",
 		"go_back": "Go Back",
 		"when_prompted": "You can send attachments only when the App ask!",
 		"received": "Image Received!",
-		"not_good": "We did not catch this file! Please try again and make sure it is an image and it contain 'English' text!",
+		"not_good": "I did not catch this file! Please try again and make sure it is an image and it contain 'English' text!",
 		"one_file": "You can send only 'One Image'. Please send 'ONE' Image!",
 		"no_balance": "You have used all of your points. Pease wait till next month!",
-		"no_jpg": "We can extract text from 'JPG' images only. Please send a 'JPG' image file!",
+		"no_jpg": "I can extract text from 'JPG' images only. Please send a 'JPG' image file!",
 		"scans": "You have scanned '{{image_count}}' images so far. You still have '{{textract_limit}}' scans for this month!",
 		"learn_more": "Learn More",
 		"translate": "Translate",
 		"summarize": "Summarize",
 		"audio": "Generate Audio",
 		"learn": "You still have '{{learn_more_limit}}' Learn More points for this month!",
-		"files": "Please select a category from below!!",
+		"files": "Please select a category from below:",
 		"view_documents": "Documents Files",
 		"view_forms": "Forms Files",
-		"view_passports": "Passports Files"
+		"view_passports": "Passports Files",
+		"welcome": "Hi {{first_name}}. I am Data Extractor Bot. I can extract data from a Form or a Passport Image. To start please select from below:",
+		"passport": "Passport Extractor",
+		"form": "Forms Extractor",
+		"smart_documents": "Smart Documents",
+		"wait": "Please wait until you finish with the customer service!",
+		"connected": "You are already connected with the Customer Service!",
+		"balance": "You have Your have '{{files}}' documents in your Storage.\nYou still have the following points:\n1) Image Scans: '{{textract_limit}}'💰.\n2) Text Translations: '{{translation_limit}}'💰.\n3) Learn More: '{{learn_more_limit}}'💰.\n4) Summarizing Text: '{{summary_limit}}'💰.\n5)Audio Generating: '{{audio_limit}}'.💰",
+		"balance_updated": "We reload the balance and delete the files every month!",
+		"balance_end": "Stay informed by going to 'Notify Me' and subscribe to get a Notice before we delete the files and reload the balance.\nIf you need more points early, please contact the Customer Service!",
+		"under_development": "This App is still under Development!!",
+		"smart_helper": "You will be able to communicate with the Bots, and ask questions with text and voice!!",
+		"soon": "Please check back soon.\nAlso, you can go to 'Notify Me' and we will update you when it is ready!",
+		"no_data": "There is no data to work with!",
+		"no_more_balance": "You have no more points left!\nPlease wait till next month!",
+		"translation": "You still have '{{translate_limit}}' translations pointsfor this month!",
+		"audio_balance": "You still have '{{audio_limit}}' Generate Audio for this month!",
+		"summary_balance": "You still have '{{summary_limit}}' Summarize Text for this month!",
+		"select_language": "Please select one of the supported languages!",
+		"summary_instruction": "Please select how you want to summarize the text!",
+		"audio_file": "Here is the audio file!",
+		"translation_file": "Translated File!",
+		"summary_file": "Here is the Summary File!",
+		"text_file": "Here is the Text file!",
+		"customer_service": "Cutomer Service",
+		"more_topics": "More Topics",
+		"learn_more_instruction": "Click on the topic to learn more!",
+		"summary_instrunction": "Please choose how you want to summarize the file from below:"
+
 	},
 	"get_started": {
 		"first_welcome": "Welcome to the Smart Place that is designed to help you with many tasks and make your life much easier!\nWe use Artificial Intelligence to extract 'English' Text from images, then we do a lot with the generated text!!",
-		"second_welcome": "You will have a balance and a pesonal storage which is totally private. The storage and the balance 'Reset Every Month', so please use the points wisely!!\nAlso, click 'Notify Me', and we will remind you before we delete the files by the end of the month or if we released New Apps!!"
+		"second_welcome": "You will have a balance and a personal storage which is totally private. The storage and the balance 'Reset Every Month', so please use the points wisely!!\nAlso, click 'Notify Me', and we will remind you before we delete the files by the end of the month or if we released New Apps!!"
 	},
 	"image-to-text": {
 		"instruction": "Then, you will have some nice options for the generated text.\nTo start please send an image with 'English' Text!",
 		"first_intro": "I am Smart Documents Bot. You can send me an image and I will extract the text from it!"
 	},
 	"documents": {
-		"category": "We saved the files under documents => name: {{cat}}"
+		"category": "I saved the files under documents => name: {{cat}}"
 	},
 	"files": {
-		"instruction": "files.instruction"
+		"instruction": "Click the name of the file to bring the file up!",
+		"exists": "We have the following files in this section:\n{{s}}",
+		"no_files": "You don't have any files yet!",
+		"display": "Click on the file to open it.\nAlso, you can choose an option from below:",
+		"open": "Click on the file to open it."
+	},
+	"inbox": {
+		"instruction1": "You are moved to the Inbox and you can't communicate with the Bots anymore.",
+		"instruction2": "After you finish the conversation with the Customer Service, the Customer Service Representative will move you back to the main Bot.",
+		"instruction3": "If there is no response from the Customer Service, please leave your message and they will get back to you soon!",
+		"instruction4": "If you want to move to the main Bot at any time, just send (#back to bot). Please don't forget the '#'."
+	},
+	"passport": {
+		"first_intro": "You can send me me an image of a passport and I will extract the data and save it in your personal storage if it is valid and I can read it!",
+		"first_intro2": "Please make sure it is an image of a passport!\nTo start, please send an Image!",
+		"saved_name": "I found the following name: {{name}}.\nI saved the files under passports => {{image_count}}_{{name}}",
+		"no_name": "I didn't find any name. I saved the file under passports => {{image_count}}_other",
+		"file": "Here is the text file!",
+		"failed": "This end point failed! Please try again or try a different passport image. If it didn't work, please process the image as a Form!\nSorry for any inconvenience!"
+	},
+	"forms": {
+		"failed": "This Image failed! This could be because of the Network, the image does not contain text, or it is low resolution. \nPlease try again or try a different image!",
+		"category": "I saved the files under forms => category name: {{cat}}",
+		"file": "Here is the text file!",
+		"first_intro": "You can send me an image of a form or a document with data and I will extract the data and save it in your personal storage!",
+		"first_intro2": "Please make sure it is an image with information fields!\nTo start, please send an Image!"
 	}
 }
