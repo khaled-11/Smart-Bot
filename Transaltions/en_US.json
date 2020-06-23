@@ -1,57 +1,44 @@
 {
-	"passport": {
-		"first_intro": "You can send us an image of a passport and we will extract the data and save it in your personal storage if it is valid and we can read it!",
-		"first_intro2": "Please make sure it is an image of a passport!\nTo start, please send an Image!",
-		"saved_name": "We found the following name: {{name}}.We saved the files under passports => {{image_count}}_{{name}}",
-		"no_name": "We didn't find any name. We saved the file under passports => {{image_count}}_other",
-		"file": "Here is the text file!",
-		"failed": "This end point failed! Please try a different passport image or process the image as a Form!\nSorry for any inconvenience!"
-	},
 	"menu": {
-		"go_back": "Go Back",
-		"welcome": "Hi {{first_name}}. I am Data Extractor Bot. I can extract data from a Form or a Passport Image. To start please select from below:",
-		"image_to_text": "Image To Text",
-		"passport": "Passport Image",
-		"form": "Form Image",
-		"smart_documents": "Smart Documents",
+		"first_welcome": "Hi {{first_name}}. I am Smart Documents Bot. I can extract 'English' text from an image.\nAlso, I can summarize or translate the text; and generate audio the text or the the translation.",
+		"first_welcome2": "Lastly, I can provide resources to learn more about the scanned topics.\nTo start, Please choose from below:",
+		"image_to_text": "Image to Text",
+		"my_files": "My Files",
 		"notify_me": "Notify Me",
 		"data_extractor": "Data Extractor",
-		"first_welcome": "Hi {{first_name}}. I am Smart Documents Bot. I can extract data from a Form or a Passport Image.\nAlso, I can translate, summarize, and genereate audio.",
-		"first_welcome2": "Moreover, I can provide resources to learn more about the scanned images or documents.\nTo start, Please choose from below:",
-		"cannot_recognize": "Sorry, We cannot recognize {{text}}. Here is the main menu.",
-		"one_file": "You can work only on one file at a moment. Please send only one Image!",
-		"when_prompted": "You can only send attachments when prompted!",
-		"no_balance": "You have used all you allowed tries. Pease wait till next month!",
-		"no_jpg": "We can extract text from JPG images only. Please send an image file!",
-		"received": "Image Received, please wait!",
-		"scans": "You have scanned {{image_count}} images so far. You still have {{textract_limit}} scans for this month!",
+		"back_to_bot": "You are back to the main Bot!",
+		"cannot_recognize": "Sorry, we cannot recognize '{{text}}'. Here is the main menu!",
+		"will_notify": "We will notify you in the future when we have any updates!\nAlso, we will notify you before the end of the month to save your files!",
+		"go_back": "Go Back",
+		"when_prompted": "You can send attachments only when the App ask!",
+		"received": "Image Received!",
+		"not_good": "We did not catch this file! Please try again and make sure it is an image and it contain 'English' text!",
+		"one_file": "You can send only 'One Image'. Please send 'ONE' Image!",
+		"no_balance": "You have used all of your points. Pease wait till next month!",
+		"no_jpg": "We can extract text from 'JPG' images only. Please send a 'JPG' image file!",
+		"scans": "You have scanned '{{image_count}}' images so far. You still have '{{textract_limit}}' scans for this month!",
+		"learn_more": "Learn More",
+		"translate": "Translate",
+		"summarize": "Summarize",
+		"audio": "Generate Audio",
+		"learn": "You still have '{{learn_more_limit}}' Learn More points for this month!",
+		"files": "Please select a category from below!!",
 		"view_documents": "Documents Files",
 		"view_forms": "Forms Files",
-		"view_passports": "Passport Files",
-		"files": "You can see your files here in categories!!"
-	},
-	"forms": {
-		"failed": "This File failed! This could be because of the Network, the image does not contain text, or it is low resolution. \nPlease try again or try a different image!",
-		"category": "We saved the files under forms => category name: {{cat}}",
-		"file": "Here is the text file!",
-		"first_intro": "You can send us an image of a form or a document with data and we will extract the data and save it in your personal storage!",
-		"first_intro2": "Please make sure it is an image with information fields!\nTo start, please send an Image!"
-	},
-	"image-to-text": {
-		"instruction": "guides",
-		"first_intro": "Intro and instructions"
+		"view_passports": "Passports Files"
 	},
 	"get_started": {
-		"second_welcome": "We have some Applications that could help you!",
-		"first_welcome": "Hi, and welcome to your smart place."
+		"first_welcome": "Welcome to the Smart Place that is designed to help you with many tasks and make your life much easier!\nWe use Artificial Intelligence to extract 'English' Text from images, then we do a lot with the generated text!!",
+		"second_welcome": "You will have a balance and a pesonal storage which is totally private. The storage and the balance 'Reset Every Month', so please use the points wisely!!\nAlso, click 'Notify Me', and we will remind you before we delete the files by the end of the month or if we released New Apps!!"
+	},
+	"image-to-text": {
+		"instruction": "Then, you will have some nice options for the generated text.\nTo start please send an image with 'English' Text!",
+		"first_intro": "I am Smart Documents Bot. You can send me an image and I will extract the text from it!"
+	},
+	"documents": {
+		"category": "We saved the files under documents => name: {{cat}}"
 	},
 	"files": {
-		"instruction": "Click the name of the file to open it.",
-		"main_instruction": "You can see your Files here in categories!"
-	},
-	"You don't have any files yet.": "You don't have any files yet.",
-	"send file here": "send file here",
-	"Please click on the file to open it": {
-		"\nThank you so much!": "Please click on the file to open it.\nThank you so much!"
+		"instruction": "files.instruction"
 	}
 }

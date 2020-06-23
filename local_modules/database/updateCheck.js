@@ -68,6 +68,9 @@ module.exports = async (sender_psid, app, current) => {
       if (!fs.existsSync(`./files/${sender_psid}/passports`)){
         fs.mkdirSync(`./files/${sender_psid}/passports`);
       }
+      if (!fs.existsSync(`./files/${sender_psid}/documents`)){
+        fs.mkdirSync(`./files/${sender_psid}/documents`);
+      }
       if (!fs.existsSync(`./views/${sender_psid}`)){
         fs.mkdirSync(`./views/${sender_psid}`);
       }

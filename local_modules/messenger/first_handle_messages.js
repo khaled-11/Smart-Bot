@@ -1,422 +1,324 @@
-////////////////////////////////////////////////////
-/// Handle Regular text and Attachments function ///
-////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+/// Handle Regular text and Attachments function for the First App ///
+//////////////////////////////////////////////////////////////////////
 const callSendAPI = require("./callSendAPI"),
 i18n = require("i18n"),
-session = require('express-session'),
-passThread = require("./pass_thread"),
-path = require("path"),
 updateCheck = require("../database/updateCheck"),
-updateLimit = require("../database/update_limit"),
-update = require("../database/update_data"),
-audio = require("../other/get_audio"),
-imageToText = require("../other/image_to_text"),
-translateText = require("../other/translate_text"),
 updateState = require("../database/update_state"),
-notification = require("./OTN"),
-readImage = require("../other/read_image"); 
+updateData = require("../database/update_data"),
+imageToText = require("../other/image_to_text"),
+updateCategory = require("../database/update_category"),
+updateLimit = require("../database/update_limit"),
+updateCount = require("../database/update_count"),
+getCategory = require("../other/get_category"),
+readImage = require("../other/read_image");
 
 module.exports = async (sender_psid, webhook_event, application) => {
+  // Assigning App name to use in sending response and decalring variable for the message.
   let app = "first";
   let received_message;
   // Send sender Actions //
   state = await senderEffect(sender_psid, app, "mark_seen");
   state = await senderEffect(sender_psid, app, "typing_on");
   
-  // Check if the user exists in the Database and get Data.
+  // Check if the user exists in the Database and get the required Data.
   check = await updateCheck(sender_psid, app,"Handla Messages");
   first_name = check[1];
   general_state = check[3];
-  categories = check[4];
+  forms_category = check[4];
   image_count = check[5];
-  document_count = check[6];
   documents = check[7];
   textract_limit = check[8];
-  translate_limit = check[9];
-  learn_more_limit = check[10];
-  summary_limit = check[11];
-  audio_limit = check[12];
+  passport_category = check[15];
+  document_category = check[16];
   i18n.setLocale(check[2]);
-
+  
   // If the user is back from the inbox.
   // The user will be back only to the main receiver.
-if (webhook_event === "BACK"){
-  console.log(sender_psid + " is back from Inbox");
-  response = { "text":"You are back to the main Bot!"};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  await menu(sender_psid, app);
-  console.log("gfdgfdgdfg");
-  refresh = updateState(sender_psid, "general_state", `${sender_psid} is back`, "to first App") 
-} else if (webhook_event === "moved"){
-  response = { "text":"Here is coming from second app"};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-await menu(sender_psid, "first");
-} else if(webhook_event === "AGREED"){
-  state = await senderEffect(sender_psid, app, "mark_seen");
-  state = await senderEffect(sender_psid, app, "typing_on");
-  response = { "text":"We will notify you in the future once we released new Apps!!\nThanks for your interest!"};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, "inbox");
-} else{
-  received_message = webhook_event.message;
-}
-
-if (general_state === "otn template"){
-  response = { "text":"Please enter the sub title of the template."};
-  action = null;
-  callSendAPI(sender_psid, response, action, app)
-  refresh = await updateState(sender_psid, "general_state", "otn template", "subtitle");
-  refresh = await updateState(sender_psid, "template_title", received_message.text,"");
-}
-else if (general_state === "otn template subtitle"){
-  response = { "text":"Please enter the image URL for the template with out https://"};
-  action = null;
-  callSendAPI(sender_psid, response, action, app)
-  refresh = await updateState(sender_psid, "general_state", "otn image", "url");
-  refresh = await updateState(sender_psid, "template_SubTitle", received_message.text,"");
-} else if (general_state === "otn image url"){
-  response = { "text":"Please enter the main URL for the template with out https://"};
-  action = null;
-  callSendAPI(sender_psid, response, action, app)
-  refresh = await updateState(sender_psid, "general_state", "otn main", "url");
-  refresh = await updateState(sender_psid, "template_image_url", received_message.text,"");
-} 
-else if (general_state === "otn main url"){
-  response = { "text":"I got all the info, I am sending the template."};
-  action = null;
-  callSendAPI(sender_psid, response, action, app)
-  refresh = await updateState(sender_psid, "general_state", "neutral", "");
-  refresh = await updateState(sender_psid, "template_main_url", received_message.text,"");
-  notification("template");
-} 
-
-// Checks if the message contains text
-if (received_message && received_message.text && !general_state.includes("otn")) {  
-console.log(sender_psid + " Received message was text!!");
-// Changing the text to lower case to check for keywords.
-var msg = received_message.text;
-var text = received_message.text.trim().toLowerCase();
-if  (msg.includes("send otn")) {
-  if (sender_psid === "4476484539044126"){
-  check = text.substring(9, 17);
-  if (check.includes("template")){
-    refresh = await updateState(sender_psid, "general_state", "otn", "template");
-    response = { "text":"Please enter the title of the template."};
-    action = null;
-    callSendAPI(sender_psid, response, action, app)
-  }else{
-  response = { "text":"We are sending OTN for you"};
-  action = null;
-  callSendAPI(sender_psid, response, action, app)
-  notification(msg.substring(9));
-  }} else{
-    response = { "text":`Do you think I will let you send OTN "${text.substring(9)}" for my users??`};
-    action = null;
-    state = await callSendAPI(sender_psid, response, action, app)
-  }
-  }
-else if  (text.includes("hi")) {
-  menu(sender_psid,app);
-  }
-  else if (text.includes("ttt")){
-    //state = await translateText(sender_psid, documents);
-    application.get(`/translation`, function(request, response) {
-       if (request.headers.referer) {
-        let check = request.headers.referer;
-        let check2 = request.route.path;
-        if (check.includes("facebook.com") || check.includes("messenger.com") || check.includes("fb") || check.includes("m.me")){
-        response.render(`translation`);
-        } else {
-          response.render(`not_found`);
-         }
-       }
-       else {
-        response.render(`not_found`);
-       }});
-       
-    
-    response = { 
-      "attachment":{
-        "type":"template",
-        "payload":{
-          "template_type":"button",
-          "text":"Arabic Translation!",
-          "buttons":[
-            {
-              "type":"web_url",
-              "url":`${process.env.URL}/translation`,
-              "title":"The Translation"
-            }
-          ]
-        }
-      }
-    }
-    
+  if (webhook_event === "BACK"){
+    console.log(sender_psid + " is back from Inbox");
+    response = { "text":i18n.__("menu.back_to_bot")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
-  }
-
-  // else if  (text.includes("app2")) {
-  //   t = await passThread(sender_psid, 'second');
-  //   if (t.success){
-  //   response = { "text":"You moved to the second App"};
-  //   action = null;
-  //   state = await callSendAPI(sender_psid, response, action, "second");
-  //   }
-  // } else if  (text.includes("app1")) {
-  //   t = await passThread(sender_psid, 'first'); 
-  //   if (t.success){
-  //   response = { "text":"You moved to the first App"};
-  //   action = null;
-  //   state = await callSendAPI(sender_psid, response, action, app); 
-  //   }  
-  // }
- else {
-        
-          menu(sender_psid,app);
-           
-    }
-    } else if (received_message && received_message.attachments) {
-      console.log(sender_psid + " Received message was an attacment!!");
-      // Get the URL of the message attachment
-      attachmentUrl = webhook_event.message.attachments[0].payload.url;
-      if(webhook_event.message.attachments.length > 1){
-          response = { "text":"You can work only on one file at a moment. Please wait for the first File!. Please send only one image at a time!"};
-          action = null;
-          state = await callSendAPI(sender_psid, response, action, app);
-      } 
-      else if(textract_limit == 0){
-        response = { "text":"You have used all you allowed tries. Pease wait till next month!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);     
-    }
-      else if(!attachmentUrl.includes("jpg")){
-          response = { "text":"We can extract text from JPG images only. Please send an image file!"};
-          action = null;
-          state = await callSendAPI(sender_psid, response, action, app);     
-      }
-      else if(general_state.includes("waiting extraction")){
-        response = { "text":"Please wait until we process the first file!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);     
-      }
-      else{
-      refresh = await updateState(sender_psid, "general_state", app, "waiting extraction from image");
-      // Read and write the Image from URL to a file with a link.
-      var request = await readImage(sender_psid, attachmentUrl, image_count);
-      console.log("Image Read, and wrote to a file Successfully!!");
-      // Sleep until File is closed.
-      await sleep(500);
-      // Call the Function that will extract the text, and save it.
-      text = await imageToText(sender_psid, image_count);
-      console.log("Extracted, and saved the File!");
-      // Sleep until File is closed.
-      await sleep(500);
-      if(!text){
-        response = { "text":"We did not catch this file. Please try again and make sure it is an image and it contain English text!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);
-      } 
-      else{
-        response = { "text":"Here is the text file!"};
-        action = null;
-        state = await callSendAPI(sender_psid, response, action, app);
-        fileN=(`./files/${sender_psid}/${image_count}.txt`)
-        response = null;
-        action = null;
-        callSendAPI(sender_psid, response, action, app, fileN)
-      }
-      refresh = await updateState(sender_psid, "general_state", app, "Text Extracted!");
-      refresh = await updateLimit(sender_psid,textract_limit-1);
-    }} 
-//////////////////////////////////////////////////////////
-//////////////////// Inner Fuctions //////////////////////
-////////////////////////////////////////////////////////// 
-
-// Sleep Funtion to put the App to wait before replying //
-function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-// Function to respond with the menu //
-async function menu(sender_psid, app){
-try{
-  response = { "text": i18n.__("menu.first_welcome", {first_name:`${first_name}`})};
-  action = null;
-  state = await callSendAPI(sender_psid, response, action, app);
-  response = {
-    "text": i18n.__("menu.first_welcome2"), 
+    await menu(sender_psid, app);
+    // Update the user state.
+    refresh = updateState(sender_psid, "general_state", `${sender_psid} is back`, "to first App") 
+  // If the user is coming from the second App.  
+  } else if (webhook_event === "moved"){
+    await menu(sender_psid, "first");
+  // If the user agreed on a OTN message.  
+  } else if(webhook_event === "AGREED"){
+    state = await senderEffect(sender_psid, app, "mark_seen");
+    state = await senderEffect(sender_psid, app, "typing_on");
+    response = { 
+    "text":  i18n.__("menu.will_notify"), 
     "quick_replies":[
       {
         "content_type":"text",
-        "title":i18n.__("menu.image_to_text"),
-        "payload":"IM-TO-TEXT"
-      },{
-        "content_type":"text",
-        "title":i18n.__("menu.data_extractor"),
-        "payload":"DATA_EXTRACTOR"
-      }]
-    }
+        "title":i18n.__("menu.go_back"),
+        "payload":"MENU"
+      }
+    ]
+  }
+  action = null;
+  state = await callSendAPI(sender_psid, response, action, app);
+  // If regular message or attachment.
+  } else{
+    received_message = webhook_event.message;
+  }
+
+  // If the general state is OTN and this is happen only with the Admin.
+  if (general_state === "otn template"){
+    response = { "text":"Please enter the sub title of the template."};
     action = null;
-    state = await callSendAPI(sender_psid, response, action, app);
-}
-catch(e){
-throw (e);
-}
-return state;
-}
-
-// Function to send Sender Effects //
-async function senderEffect(sender_psid, app, action_needed){
-  try{
-    response = null;
-    action = action_needed;
-    state = await callSendAPI(sender_psid, response, action, app);   
+    callSendAPI(sender_psid, response, action, app)
+    // Update the template data with the new data and update the general status.
+    refresh = await updateState(sender_psid, "general_state", "otn template", "subtitle");
+    refresh = await updateState(sender_psid, "template_title", received_message.text,"");
   }
-  catch(e){
+  // Continue the flow to get all the template Data.
+  else if (general_state === "otn template subtitle"){
+    response = { "text":"Please enter the image URL for the template with out https://"};
+    action = null;
+    callSendAPI(sender_psid, response, action, app)
+    refresh = await updateState(sender_psid, "general_state", "otn image", "url");
+    refresh = await updateState(sender_psid, "template_SubTitle", received_message.text,"");
+  } else if (general_state === "otn image url"){
+    response = { "text":"Please enter the main URL for the template with out https://"};
+    action = null;
+    callSendAPI(sender_psid, response, action, app)
+    refresh = await updateState(sender_psid, "general_state", "otn main", "url");
+    refresh = await updateState(sender_psid, "template_image_url", received_message.text,"");
+  } 
+  else if (general_state === "otn main url"){
+    response = { "text":"I got all the info, I am sending the template."};
+    action = null;
+    callSendAPI(sender_psid, response, action, app)
+    refresh = await updateState(sender_psid, "general_state", "neutral", "");
+    refresh = await updateState(sender_psid, "template_main_url", received_message.text,"");
+    notification("template");
+  } 
+  
+  // If this is a regular text Message.
+  if (received_message && received_message.text && !general_state.includes("otn")) {  
+    console.log(sender_psid + " Received message was text!!");
+    // Changing the text to lower case to check for keywords.
+    var msg = received_message.text;
+    var text = received_message.text.trim().toLowerCase();
+    // If the Admin is sending the commsand "send otn"
+    if  (msg.includes("send otn")) {
+      if (sender_psid === "4476484539044126"){
+      check = msg.substring(9, 17);
+      // Check if it is a template or a regular text.
+      // If template, will ask for the title and continue outside of this function.
+      if (check.includes("template")){
+        refresh = await updateState(sender_psid, "general_state", "otn", "template");
+        response = { "text":"Please enter the title of the template."};
+        action = null;
+        callSendAPI(sender_psid, response, action, app)
+      // If text, send the OTN from here.
+      }else{
+      response = { "text":"We are sending OTN for you"};
+      action = null;
+      callSendAPI(sender_psid, response, action, app)
+      notification(msg.substring(9));
+      }
+      // If a user try to send OTN
+      } else{
+        response = { "text":`Do you think I will let you send OTN "${text.substring(9)}" for my users??`};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app)
+      }
+    // IF the user send hi or any text, will always send the menu.
+    } else if  (text.includes("hi")) {
+        await menu(sender_psid,app, first_name);
+    } else {
+      response = {"text" :i18n.__("menu.cannot_recognize", {text:`${received_message.text}`})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);  
+      await menu(sender_psid,app);
+    }
+  // If it is an attachment  
+  } else if (received_message && received_message.attachments) {
+    console.log(sender_psid + " Received message was an attacment!!");
+    // Get the URL of the message attachment
+    attachmentUrl = webhook_event.message.attachments[0].payload.url;
+        // Restrict sending attachment for specific cases by checking the user general state..
+    if(!general_state.includes("sending image")){
+      response = {"text" :i18n.__("menu.when_prompted")}
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      await menu(sender_psid,app,first_name);
+    }
+    // If the user is sending attachment and he send more than one image.
+    else if(webhook_event.message.attachments.length > 1){
+      response = {"text" :i18n.__("menu.one_file")}
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }
+    // If no more balance left. 
+    else if(textract_limit == 0){ 
+      response = {
+        "text" :i18n.__("menu.no_balance"), 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"MENU"
+          }]
+      }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app); 
+      refresh = await updateState(sender_psid, "general_state", app, "no more balance");    
+    }
+    // If the user send GIF or any other file extension.
+    else if(!attachmentUrl.includes("jpg")){
+      response = {
+        "text":i18n.__("menu.no_jpg"),
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("smart_helper.go_back"),
+            "payload":"MENU"
+          }]
+        }
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);     
+    } else if (general_state.includes("sending image")){
+      refresh = await updateState(sender_psid, "general_state", app, "waiting extraction from image");
+      response = { "text":i18n.__("menu.received")};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      state = await senderEffect(sender_psid, app, "mark_seen");
+      state = await senderEffect(sender_psid, app, "typing_on");
+      read = await readImage(sender_psid, attachmentUrl, image_count);
+      console.log("Image Read, and wrote to a file Successfully!!");
+      // Sleep until File is closed.
+      await sleep(600);
+      // Call the Function that will extract the text, and save it.
+      text = await imageToText(sender_psid, image_count);
+      // Sleep until File is closed.
+      await sleep(600);
+      if(!text){
+        response = { "text": i18n.__("menu.not_good")};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+        refresh = await updateState(sender_psid, "general_state", app, "loop to sending image");
+      } 
+      else{
+        cat = await getCategory(text);
+        if (cat){
+          fs.writeFile(`./files/${sender_psid}/documents/${image_count}_${cat}.txt`, text, function (err) {
+            if (err) {
+                  console.log("An error occured while writing JSON Object to File.");
+                  return console.log(err);
+              }
+              console.log("TXT file has been saved."); 
+          });
+        response =  { "text":i18n.__("documents.category",{cat :`${cat}`})};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+        response = { "text":"Here is the text file!"};
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+        t = updateData([`${sender_psid}`, `${image_count}_${cat}`,`./files/${sender_psid}/documents/${image_count}_${cat}.txt`]);  
+        t = updateCategory([`${sender_psid}`,"documents",document_category.length,`${image_count}_${cat}`]);
+        fileN=(`./files/${sender_psid}/documents/${image_count}_${cat}.txt`)
+        response = null;
+        action = null;
+        await callSendAPI(sender_psid, response, action, app, fileN)
+      }
+      ++image_count;
+      refresh = await updateCount(sender_psid,"image", image_count);
+      refresh = await updateState(sender_psid, "general_state", app, "Text Extracted!");
+      refresh = await updateLimit(sender_psid,"Textract_Limit", textract_limit-1);
+      // Send the limit information
+      response = {"text":i18n.__("menu.scans",{image_count:`${image_count}`, textract_limit:`${textract_limit-1}`}),
+      "quick_replies":[
+        {
+          "content_type":"text",
+          "title":i18n.__("menu.learn_more"),
+          "payload":`LEARN_MORE_${fileN}`
+        }, {
+          "content_type":"text",
+          "title":i18n.__("menu.translate"),
+          "payload":`TRANSLATE_${fileN}`
+        }, {
+          "content_type":"text",
+          "title":i18n.__("menu.summarize"),
+          "payload":`SUMMARY_${fileN}`
+        }, {
+          "content_type":"text",
+          "title":i18n.__("menu.audio"),
+          "payload":`EN_AUDIO_${fileN}`
+        }, {
+          "content_type":"text",
+          "title":i18n.__("menu.go_back"),
+          "payload":"MENU"
+        }]
+      }
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }}
+  } 
+
+  //////////////////////////////////////////////////////////
+  //////////////////// Inner Fuctions //////////////////////
+  ////////////////////////////////////////////////////////// 
+
+  // Sleep Funtion to put the App to wait before replying //
+  function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  // Function to respond with the menu //
+  async function menu(sender_psid, app){
+    try{
+      response = { "text": i18n.__("menu.first_welcome", {first_name:`${first_name}`})};
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+      response = {
+        "text": i18n.__("menu.first_welcome2"), 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.image_to_text"),
+            "payload":"IM-TO-TEXT"
+          },{
+            "content_type":"text",
+            "title":i18n.__("menu.my_files"),
+            "payload":"FILES"
+          },{
+            "content_type":"text",
+            "title":i18n.__("menu.notify_me"),
+            "payload":"NOTIFY_ME"
+          },{
+            "content_type":"text",
+            "title":i18n.__("menu.data_extractor"),
+            "payload":"DATA_EXTRACTOR"
+          }]
+        }
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+    }
+    catch(e){
     throw (e);
+    }
+    return state;
   }
-  return state;
+
+  // Function to send Sender Effects //
+  async function senderEffect(sender_psid, app, action_needed){
+    try{
+      response = null;
+      action = action_needed;
+      state = await callSendAPI(sender_psid, response, action, app);   
+    }
+    catch(e){
+      throw (e);
+    }
+    return state;
+  }
 }
-
-
-
-}
-
-
-
-
-// response = { 
-//   "attachment":{
-//   "type":"template",
-//   "payload":{
-//   "template_type":"button",
-//   "text":"Welcome  ",
-//   "buttons":[
-//       {
-//             "type":"postback",
-//             "payload":"TRANSLATE",
-//             "title":"Image to Code"
-//           },
-//           {
-//             "type":"postback",
-//             "payload":"UPLOAD",
-//             "title":"Upload a Webpage"
-//           },
-//           {
-//             "type":"postback",
-//             "payload":"LINK",
-//             "title":"View My Link"
-//           }
-//         ]
-//       }
-//     }
-//   }
-
-    //   po = await audio(`./files/${sender_psid}/${documents.length}.txt`,sender_psid,documents.length,'Kimberly');
-    //   await sleep(500);
-    //   // Sending the Audio file to the user.
-    //   response = { "text":"Here is the audio file!"};
-    //   action = null;
-    //   state = await callSendAPI(sender_psid, response, action, app);
-    //   response = {
-    //     "attachment":{
-    //     "type":"audio", 
-    //     "payload":{
-    //       "url":`${process.env.URL}/${sender_psid}/${documents.length}.mp3`, 
-    //       "is_reusable":true
-    //     }
-    //   }}
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-    // check = await updateCheck(sender_psid);
-    // documents = await check[3];
-    // //console.log(doc);
-    // state = await translateText(sender_psid, documents);
-    // uu = await update([sender_psid, translation.length,state,"translatedDocs"]);
-    
-    // await sleep(500);
-    
-    // // Sending the Audio file to the user.
-    // response = { "text":"Here is the transaltion file!"};
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-    
-    // response = { 
-    //   "attachment":{
-    //     "type":"template",
-    //     "payload":{
-    //       "template_type":"button",
-    //       "text":"Arabic Translation!",
-    //       "buttons":[
-    //         {
-    //           "type":"web_url",
-    //           "url":`${process.env.URL}/${sender_psid}/${documents.length - 1}_translation`,
-    //           "title":"The Translation"
-    //         }
-    //       ]
-    //     }
-    //   }
-    // }
-    
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-    
-    // po = await audio(`./views/${sender_psid}/${documents.length - 1}_translation/index.ejs`,sender_psid,documents.length,'Zeina');
-    
-    // await sleep(500);
-    // // Sending the Audio file to the user.
-    // response = { "text":"Here is the translation audio file!"};
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-    // response = {
-    //   "attachment":{
-    //   "type":"audio", 
-    //   "payload":{
-    //     "url":`${process.env.URL}/${sender_psid}/${documents.length - 1}_translation.mp3`, 
-    //     "is_reusable":true
-    //   }
-    // }}
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-    
-        // if (t.success)
-    // response = { 
-    //   "attachment":{
-    //   "type":"template",
-    //   "payload":{
-    //     "template_type":"button",
-    //     "text":"Arabic Translation!",
-    //     "buttons":[
-    //       {
-    //         "type":"web_url",
-    //         "url":`${process.env.URL}`,
-    //         "title":"Log"
-    //       }
-    //     ]
-    //   }}
-    // }  
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, app);
-     // response = { 
-    //     "attachment":{
-    //       "type":"template",
-    //       "payload":{
-    //         "template_type":"button",
-    //         "text":"Arabic Translation!",
-    //         "buttons":[
-    //           {
-    //             "type":"web_url",
-    //             "url":`${process.env.URL}`,
-    //             "title":"Log"
-    //           }
-    //         ]
-    //     }
-    //   }
-    // } 
-    // action = null;
-    // state = await callSendAPI(sender_psid, response, action, 'first');

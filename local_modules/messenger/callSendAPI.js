@@ -70,6 +70,22 @@ module.exports = async (sender_psid, response, action, app, fileData, userToken)
         // Here if the response is File attachment from the local server. 
         else{
             var fileReaderStream = fs.createReadStream(fileData)
+                if (fileData.includes("mp3")){
+                formData = {
+                recipient: JSON.stringify({
+                id: sender_psid
+                }),
+                message: JSON.stringify({
+                    attachment: {
+                    type: 'audio',
+                payload: {
+                is_reusable: false
+                }}
+                }),
+                filedata: fileReaderStream,
+                persona_id: persona_id
+                }
+            }else{
             formData = {
             recipient: JSON.stringify({
             id: sender_psid
@@ -83,7 +99,7 @@ module.exports = async (sender_psid, response, action, app, fileData, userToken)
             }),
             filedata: fileReaderStream,
             persona_id: persona_id
-            }
+            }}
             var options = {
                 method: 'POST',
                 uri: `https://graph.facebook.com/v7.0/me/messages?access_token=${token}`,

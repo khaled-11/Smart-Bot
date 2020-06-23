@@ -118,7 +118,7 @@ module.exports = async (sender_psid, webhook_event) => {
       // Call function to read the Image from URL and write it to a file.
       read = await readImage(sender_psid, attachmentUrl, image_count);
       // Sleep until File is closed.
-      await sleep(600);
+      await sleep(800);
       // Read the file then call the Function that will extract the text, and save it.
       var data = fs.readFileSync(`./files/${sender_psid}/${image_count}.jpg`);
       var results = await paspportData(data);
@@ -165,7 +165,7 @@ module.exports = async (sender_psid, webhook_event) => {
           // Send the limt informations and go back button.
           refresh = await updateCount(sender_psid,"image", image_count);
           refresh = await updateState(sender_psid, "general_state", app, "Passport Extracted");
-          refresh = await updateLimit(sender_psid,textract_limit-1);
+          refresh = await updateLimit(sender_psid,"Textract_Limit", textract_limit-1);
           response = {"text":i18n.__("menu.scans",{image_count:`${image_count}`, textract_limit:`${textract_limit-1}`}),
           "quick_replies":[
             {
@@ -203,7 +203,7 @@ module.exports = async (sender_psid, webhook_event) => {
           // Send the Limit information
           refresh = await updateCount(sender_psid,"image", image_count);
           refresh = await updateState(sender_psid, "general_state", app, "Passport Extracted");
-          refresh = await updateLimit(sender_psid,textract_limit-1);
+          refresh = await updateLimit(sender_psid,"Textract_Limit", textract_limit-1);
           response = {"text":i18n.__("menu.scans",{image_count:`${image_count}`, textract_limit:`${textract_limit-1}`}),
           "quick_replies":[
           {
@@ -245,7 +245,7 @@ module.exports = async (sender_psid, webhook_event) => {
       read = await readImage(sender_psid, attachmentUrl, image_count);
       console.log("Image Read, and wrote to a file Successfully!!");
       // Sleep until File is closed.
-      await sleep(600);
+      await sleep(800);
       // Read file then call the Function that will extract the text, and save it.
       var data = fs.readFileSync(`./files/${sender_psid}/${image_count}.jpg`);
       var results = JSON.stringify(await imageFormToText(data));
@@ -282,11 +282,18 @@ module.exports = async (sender_psid, webhook_event) => {
         refresh = await updateCount(sender_psid,"image", image_count);
         refresh = await updateState(sender_psid, "general_state", app, "text extracted");
         --textract_limit;
-        refresh = await updateLimit(sender_psid,textract_limit);
+        refresh = await updateLimit(sender_psid,"Textract_Limit", textract_limit);
         // Get the category
-        cat = await getCategory(sender_psid, s2); 
+        cat = await getCategory(s2); 
         // If there is category. 
         if (cat){
+          fs.writeFile(`./files/${sender_psid}/forms/${image_count}_${cat}.txt`, s, function (err) {
+            if (err) {
+                  console.log("An error occured while writing JSON Object to File.");
+                  return console.log(err);
+              }
+              console.log("TXT file has been saved."); 
+          });
           response =  { "text":i18n.__("forms.category",{cat :`${cat}`})};
           action = null;
           state = await callSendAPI(sender_psid, response, action, app);

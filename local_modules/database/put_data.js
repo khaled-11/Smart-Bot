@@ -18,11 +18,11 @@ module.exports = async (data, app, current) => {
         'documents' : {M:  {"Docs": {"S":"path to doc"}}},
         'image_count' : {N: `0`},
         'document_count' : {N: `0`},
-        'Textract_Limit' : {N: `20`},
-        'Translate_Limit' : {N: `50`},
-        'Learn_More_Limit' : {N: `50`},
-        'Summary_Limit' : {N: `50`},
-        'Audio_Limit' : {N: `50`},
+        'Textract_Limit' : {N: `10`},
+        'Translate_Limit' : {N: `20`},
+        'Learn_More_Limit' : {N: `20`},
+        'Summary_Limit' : {N: `20`},
+        'Audio_Limit' : {N: `20`},
         'Notification' : {S: 'Neutral'},
         'Notification_token' : {S: ''}
         }};

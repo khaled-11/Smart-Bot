@@ -1,9 +1,11 @@
 const rp = require('request-promise'),
 session = require('express-session');
 
-module.exports = async (sender_psid, s) => {
+// Get the category based on the text.
+module.exports = async (s) => {
   var result = "";
   try {
+    // Get the category name
     var options = {
         method: 'GET',
         url: 'https://meaningcloud-deep-categorization-v1.p.rapidapi.com/deepcategorization-1.0',
@@ -18,36 +20,32 @@ module.exports = async (sender_psid, s) => {
           useQueryString: true
         }
       };
-  body = await(rp(options));
-  if (body){
-  for (i = 0 ; i < body.length ; ++i){
-    if (body[i] == 'c' && body[i+1] == 'a' && body[i+2] == 't' && body[i+3] == 'e' && body[i+4] == 'g'){
-        i += 25;
-        for (j = 0 ; j < 10 ; ++j){
-        if (!body[i]){
-          ++j;
-          result = "Other";
+    body = await(rp(options));
+    if (body){
+      // Get the category String.
+      for (i = 0 ; i < body.length ; ++i){
+        if (body[i] == 'c' && body[i+1] == 'a' && body[i+2] == 't' && body[i+3] == 'e' && body[i+4] == 'g'){
+          i += 25;
+          for (j = 0 ; j < 25 ; ++j){
+            if (!body[i]){
+              ++j;
+              result = "Other";
+            }
+            else {
+              if(body[i] == '"' || body[i] == '>'){
+                j = 25;
+              } else if (body[i] === "&"){
+                result += "And"
+                ++i;
+              }else{
+                result += body[i];
+                ++i;
+              }
+            }
+          }
         }
-        else {
-          if(body[i] == '"' || body[i] == '>'){
-j = 10;
-        } else{
-          result += body[i];
-++i;
-        }}}
-  }
-}
-if (result){
-    fs.writeFile(`./files/${sender_psid}/forms/${image_count}_${result}.txt`, s, function (err) {
-    if (err) {
-          console.log("An error occured while writing JSON Object to File.");
-          return console.log(err);
       }
-      console.log("TXT file has been saved."); 
-    });
-   }
-  }
-    
+    }  
   }
   catch (e) {
     console.log(e);
