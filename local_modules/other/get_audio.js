@@ -4,7 +4,8 @@ const fs = require ("fs");
 
 const Polly = new AWS.Polly;
 module.exports = async (file,sender_psid,voiceId) => {
-
+  try{
+var data;
 const params = {
   'Text': fs.readFileSync(file, 'utf8'),
   'OutputFormat': 'mp3',
@@ -12,7 +13,7 @@ const params = {
 }
 
 const request = Polly.synthesizeSpeech(params);
-const data = await request.promise();
+data = await request.promise();
 if (voiceId === 'Kimberly') {
 const state = fs.writeFile(`./files/${sender_psid}/audio.mp3`, data.AudioStream, function(err) {
   if (err) {
@@ -28,5 +29,8 @@ const state = fs.writeFile(`./files/${sender_psid}/audio.mp3`, data.AudioStream,
                 console.log("The file was saved!")
         })
   }
+} catch (e){
+  return;
+}
     return data;
 }

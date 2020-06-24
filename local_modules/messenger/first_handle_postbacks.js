@@ -785,8 +785,13 @@ module.exports = async (sender_psid, webhook_event, application) => {
     getLang = payload.substring(0,2);
     if (getLang.includes("EN")){
       po = await audio(`${getPath}`, sender_psid, 'Kimberly');
-      await sleep(500);
+      await sleep(800);
       // Sending the Audio file to the user.
+      if(!po){
+        response = { "text":"This text is not compatible or very long" };
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+      }else {
       response = { "text":i18n.__("menu.audio_file")};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
@@ -807,9 +812,15 @@ module.exports = async (sender_psid, webhook_event, application) => {
     }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
+  }
     } else if (getLang.includes("ar")){
       po = await audio(`${getPath}`, sender_psid, 'Zeina');
-      await sleep(500);
+      if(!po){
+        response = { "text":"This text is not compatible or very long" };
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+      } else {
+      await sleep(800);
       // Sending the Audio file to the user.
       response = { "text":i18n.__("menu.audio_file")};
       action = null;
@@ -830,9 +841,15 @@ module.exports = async (sender_psid, webhook_event, application) => {
     }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
+  }
     } else if (getLang.includes("zh")){
       po = await audio(`${getPath}`, sender_psid, 'Zhiyu');
-      await sleep(500);
+      if(!po){
+        response = { "text":"This text is not compatible or very long" };
+        action = null;
+        state = await callSendAPI(sender_psid, response, action, app);
+      } else {
+      await sleep(800);
       // Sending the Audio file to the user.
       response = { "text":i18n.__("menu.audio_file")};
       action = null;
@@ -853,7 +870,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     }
     action = null;
     state = await callSendAPI(sender_psid, response, action, app);
-    }
+    }}
   }
   } else if (payload.includes("LEARN_MORE")){
     if(learn_more_limit == 0){ 
@@ -1137,18 +1154,18 @@ module.exports = async (sender_psid, webhook_event, application) => {
       if (err) {
         return console.log(err);
       }
-      await sleep(500);
+      await sleep(800);
       state = await translateText(sender_psid, data, getLang);
-      await sleep(600);
+      await sleep(1000);
     });
-    await sleep(600);
+    await sleep(1200);
     // Sending the main index Page //  
     application.get(`/${sender_psid}`, function(request, response) {
       path = request.path;
       referer = request.headers.referer;
       if(!referer){
       response.render(`not_found`);
-    }else if (path.includes(`${id}`) && (referer.includes("facebook") || referer.includes("messenger") || referer.includes("fb"))){
+    }else if (path.includes(`${sender_psid}`) && (referer.includes("facebook") || referer.includes("messenger") || referer.includes("fb"))){
       response.render(`${sender_psid}`);
     }
     });
@@ -1215,11 +1232,11 @@ module.exports = async (sender_psid, webhook_event, application) => {
       if (err) {
         return console.log(err);
       }
-      await sleep(600);
+      await sleep(800);
       state = await summarizeText(sender_psid, data, getPers);
-      await sleep(600);
+      await sleep(1000);
     });
-    await sleep(800);
+    await sleep(1200);
     refresh = await updateState(sender_psid, "general_state", app, "summary online");
     --summary_limit;
     refresh = await updateLimit(sender_psid,"Summary_Limit", summary_limit);

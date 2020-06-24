@@ -140,7 +140,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
       await menu(sender_psid,app);
     }
   // If it is an attachment  
-  } else if (received_message && received_message.attachments) {
+  } else if (received_message && received_message.attachments && !general_state.includes("otn")) {
     console.log(sender_psid + " Received message was an attacment!!");
     // Get the URL of the message attachment
     attachmentUrl = webhook_event.message.attachments[0].payload.url;

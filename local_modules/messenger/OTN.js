@@ -50,7 +50,7 @@ module.exports = async (type) => {
                               {
                                 "type":"web_url",
                                 "url":state.Item.template_main_url.S,
-                                "title":"View Map"
+                                "title":"Learn More"
                               }
                         ]}]}
                     }
