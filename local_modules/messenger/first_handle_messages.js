@@ -47,12 +47,13 @@ module.exports = async (sender_psid, webhook_event, application) => {
   // If the user is coming from the second App.  
   } else if (webhook_event === "moved"){
     await menu(sender_psid, "first");
+    refresh = await updateState(sender_psid, "general_state", app, "moved");    
   // If the user agreed on a OTN message.  
   } else if(webhook_event === "AGREED"){
     state = await senderEffect(sender_psid, app, "mark_seen");
     state = await senderEffect(sender_psid, app, "typing_on");
     response = { 
-    "text":  i18n.__("menu.will_notify"), 
+    "text":  i18n.__("menu.will_notify"),  
     "quick_replies":[
       {
         "content_type":"text",
@@ -63,6 +64,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
   }
   action = null;
   state = await callSendAPI(sender_psid, response, action, app);
+  refresh = await updateState(sender_psid, "general_state", app, "User agreed");    
   // If regular message or attachment.
   } else{
     received_message = webhook_event.message;
@@ -131,13 +133,26 @@ module.exports = async (sender_psid, webhook_event, application) => {
         state = await callSendAPI(sender_psid, response, action, app)
       }
     // IF the user send hi or any text, will always send the menu.
-    } else if  (text.includes("hi")) {
-        await menu(sender_psid,app, first_name);
-    } else {
-      response = {"text" :i18n.__("menu.cannot_recognize", {text:`${received_message.text}`})};
+    } else if (!general_state.includes("sending") && !general_state.includes("waiting") && text.includes("hi")){
+      await menu(sender_psid,app, first_name);
+    } else if (!general_state.includes("sending") && !general_state.includes("waiting") && !text.includes("hi")){
+      response = {
+        "text" : "Text is not allowed Here!!", 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"MENU"
+          }]
+      }
       action = null;
-      state = await callSendAPI(sender_psid, response, action, app);  
-      await menu(sender_psid,app);
+      state = await callSendAPI(sender_psid, response, action, app); 
+    } else if (general_state.includes("sending")){
+      response = {"text" :"Please send an image!!"}
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }else if (general_state.includes("waiting")) {
+      state = await senderEffect(sender_psid, app, "mark_seen");
     }
   // If it is an attachment  
   } else if (received_message && received_message.attachments && !general_state.includes("otn")) {

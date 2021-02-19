@@ -37,6 +37,7 @@ module.exports = async (sender_psid, webhook_event) => {
   // If the function is triggered from the First App for Get_Started or Pass Thread.
   if (webhook_event === "moved"){
     await menu(sender_psid, app, first_name);
+    refresh = await updateState(sender_psid, "general_state", app, "moved");    
   } else if (webhook_event === "ger_started"){
     update = await updateState(sender_psid, "general_state", app, "PostBack Get_Started");
     state = await menu(sender_psid, app, first_name);
@@ -50,15 +51,33 @@ module.exports = async (sender_psid, webhook_event) => {
     // Changing the text to lower case to check for keywords.
     var text = received_message.text.trim().toLowerCase();
     // Send the menu for any text.
-    if  (text.includes("hi")) {
+    if (!general_state.includes("sending") && !general_state.includes("waiting") && text.includes("hi")){
       await menu(sender_psid,app, first_name);
-    }
-    else {
-      response = {"text" :i18n.__("menu.cannot_recognize", {text:`${received_message.text}`})};
+    } else if (!general_state.includes("sending") && !general_state.includes("waiting") && !text.includes("hi")){
+      response = {
+        "text" : "Text is not allowed Here!!", 
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":i18n.__("menu.go_back"),
+            "payload":"MENU"
+          }]
+      }
       action = null;
-      state = await callSendAPI(sender_psid, response, action, app);  
-      await menu(sender_psid,app);
+      state = await callSendAPI(sender_psid, response, action, app); 
+    } else if (general_state.includes("sending")){
+      response = {"text" :"Please send an image!!"}
+      action = null;
+      state = await callSendAPI(sender_psid, response, action, app);
+    }else if (general_state.includes("waiting")) {
+      state = await senderEffect(sender_psid, app, "mark_seen");
     }
+      // response = {"text" :i18n.__("menu.cannot_recognize", {text:`${received_message.text}`})};
+      // action = null;
+      // state = await callSendAPI(sender_psid, response, action, app);  
+      // await menu(sender_psid,app, first_name);
+
+  
     // If the message is attachment.
   } else if (received_message && received_message.attachments) {
     // Get the URL of the message attachment
@@ -225,7 +244,7 @@ module.exports = async (sender_psid, webhook_event) => {
             }, {
               "content_type":"text",
               "title":i18n.__("menu.form"),
-              "payload":"Form Image"
+              "payload":"FORM"
             }]
           }
           action = null;

@@ -5,6 +5,139 @@ curl -X POST -H "Content-Type: application/json" -d "greeting":[{
 
 
 
+    curl -X POST -H "Content-Type: application/json" -d '{
+        "persistent_menu": [
+          {
+              "locale": "default",
+              "composer_input_disabled": false,
+              "call_to_actions": [
+                {
+                  "type": "nested",
+                  "title": "My Account",
+                  "call_to_actions": [
+                    {
+                      "type": "postback",
+                      "title": "Amazon Login",
+                      "payload": "Amazon_login"
+                  }, {
+                      "type": "postback",
+                      "title": "Donate",
+                      "payload": "DONATE"
+                  } ,{
+                    "type": "postback",
+                    "title": "Receipts",
+                    "payload": "RECEIPTS"
+                }
+                    ]
+              },
+                  {
+                      "type": "postback",
+                      "title": "Search Events",
+                      "payload": "SEARCH_EVEVNTS"
+                  },
+                  {
+                      "type": "postback",
+                      "title": "Customer Service",
+                      "payload": "CUSTOMER_SERVICE"
+                  }
+              ]
+          }
+      ]
+      
+   }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAJOReg5S4UBANa9IUZBezgzm9IsCpzrmJPIWcy0ZAj6o69ZCuMd1fPPYbgZBLtzRLuKYaQsy9sN2DHQqrSDZA8vWXn45XqYwSYyKVsLdpubU7ZCurN1UsJ2LOZCBr2MWBgYLTvvAyZBCmMmLzNmWiHd6nin80gZB6yXBqmrnok9d1AZDZD"
+
+
+
+
+   
+
+
+   curl -X POST -H "Content-Type: application/json" -d '{
+    "psid": "2985126314940232",
+    "persistent_menu": [
+      {
+          "locale": "default",
+          "composer_input_disabled": false,
+          "call_to_actions": [
+            {
+              "type": "nested",
+              "title": "Admin Control",
+              "call_to_actions": [
+                {
+                  "type": "postback",
+                  "title": "Add Event",
+                  "payload": "ADD_EVENT"
+              },
+              {
+                  "type": "postback",
+                  "title": "Fundraisings Limits",
+                  "payload": "SEARCH_FUNDRAISINGS"
+              },{
+                "type": "postback",
+                "title": "Search Users",
+                "payload": "SEARCH_USERS"
+            }
+          ]
+          },
+
+              {
+                  "type": "postback",
+                  "title": "Search Events",
+                  "payload": "SEARCH_EVENTS"
+              },{
+                "type": "postback",
+                "title": "Notify Users",
+                "payload": "NOTIFY_USERS"
+            }
+          ]
+      }
+  ]
+}' "https://graph.facebook.com/v7.0/me/custom_user_settings?access_token=EAAJOReg5S4UBANa9IUZBezgzm9IsCpzrmJPIWcy0ZAj6o69ZCuMd1fPPYbgZBLtzRLuKYaQsy9sN2DHQqrSDZA8vWXn45XqYwSYyKVsLdpubU7ZCurN1UsJ2LOZCBr2MWBgYLTvvAyZBCmMmLzNmWiHd6nin80gZB6yXBqmrnok9d1AZDZD"
+
+
+
+   curl -X POST -H "Content-Type: application/json" -d '{
+    "psid": "3202616389819984",
+    "persistent_menu": [
+      {
+          "locale": "default",
+          "composer_input_disabled": false,
+          "call_to_actions": [
+            {
+              "type": "nested",
+              "title": "My Account",
+              "call_to_actions": [
+                {
+                  "type": "postback",
+                  "title": "Amazon Login",
+                  "payload": "Amazon_login"
+                  }, {
+                    "type": "postback",
+                    "title": "Donate",
+                    "payload": "DONATE"
+                } ,{
+                  "type": "postback",
+                  "title": "Receipts",
+                  "payload": "RECEIPTS"
+              }
+                ]
+          },
+              {
+                  "type": "postback",
+                  "title": "Search Events",
+                  "payload": "SEARCH_EVEVNTS"
+              },
+              {
+                  "type": "postback",
+                  "title": "Customer Service",
+                  "payload": "CUSTOMER_SERVICE"
+              }
+          ]
+      }
+  ]
+}' "https://graph.facebook.com/v7.0/me/custom_user_settings?access_token=EAAJOReg5S4UBANa9IUZBezgzm9IsCpzrmJPIWcy0ZAj6o69ZCuMd1fPPYbgZBLtzRLuKYaQsy9sN2DHQqrSDZA8vWXn45XqYwSYyKVsLdpubU7ZCurN1UsJ2LOZCBr2MWBgYLTvvAyZBCmMmLzNmWiHd6nin80gZB6yXBqmrnok9d1AZDZD"
+
+
 
 
 
@@ -14,8 +147,8 @@ curl -X POST -H "Content-Type: application/json" -d "greeting":[{
         }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADXL3rUZAdsBAPnNERr9vpJP359ZC4rZAtqrBkzUYw2AO7Ttjl55ybolbC7FJLzyiwQj4II9wE6I1U0P3LtQD76LbohPZCZBsLeHOReqPyt1junk4m3WIZB2hLsZBrMBSwwrzMHKnjxOOG6WaxQCd93I6dlAnmwOLXlZB86C8mWuwZDZD"
      
         curl -X POST -H "Content-Type: application/json" -d '{
-            "get_started":{ "payload":"GET_STARTED" }
-         }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAKgBEWGpmUBAKHjHk8DbZCNpOq9CkTSkfUnFILAwogaH2cPxOMo9RxbG1JxZCZAt3NvT6ZBAgSVbsZApQExGLcLODA5kCZAZC5d8PAZBJXl2gNs5ZAsfRbvrXB8r95iaTZAy51WZAa81yT730W6IEWmWsGiQTMIb3qceSn50zW9qYEWgZDZD"
+            "get_started":{ "type":"web_url", "url":"","payload":"GET_STARTED" }
+         }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAJOReg5S4UBAJTc72KOCsCeIAqOEex3Sx1jJhNpwzjZCxK3IZBwSqhTNnpCwnP4pB1BdNB5ZAlNHdecE1BjojPOcd7a4i39Nif8hA7Bh2c3d5SxcSRyWRrpSxrZBsqe8Lo3yEDAUsongf1Y7UFTdsgOZBRTnrf8NKevgAzdfjAZDZD"
 
         curl -X POST -H "Content-Type: application/json" -d '{
             "name": "Smart Documents",

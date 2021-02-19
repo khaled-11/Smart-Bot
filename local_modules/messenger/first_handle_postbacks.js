@@ -178,6 +178,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
   // Working on NLP App to communicate using text/audio.
   else if (payload === 'SMART_HELPER'){
   if (!general_state.includes("inbox")){
+    refresh = await updateState(sender_psid, "general_state", app, "helper");
     response = { "text":i18n.__("menu.under_development")};
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
@@ -207,6 +208,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     if (!general_state.includes("inbox")){
       // Pass thread to the first to handle the user response.
       t = await passThread(sender_psid, 'first'); 
+      refresh = await updateState(sender_psid, "general_state", app, "Files");
       // Send the Main Categories
       response = {
         "text":i18n.__("menu.files"), 
@@ -241,6 +243,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
   } else if (payload === 'BALANCE'){
     // If the user is not connectec with customer service.
     if (!general_state.includes("inbox")){
+      refresh = await updateState(sender_psid, "general_state", app, "balance");
       response = { "text":i18n.__("menu.balance",{"files":image_count, "textract_limit":textract_limit , "learn_more_limit":learn_more_limit, "translation_limit":translate_limit, "summary_limit":summary_limit, "audio_limit":audio_limit})};
       action = null;
       state = await callSendAPI(sender_psid, response, action, app);
@@ -718,6 +721,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     action = null;
     state = await callSendAPI(sender_psid, response, action, "inbox");
   } else if (payload.includes("TRANSLATE")){
+    refresh = await updateState(sender_psid, "general_state", app, "translate");
     if(translate_limit == 0){ 
       response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
@@ -776,6 +780,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     state = await callSendAPI(sender_psid, response, action, app);
     }
   } else if (payload.includes("AUDIO")){
+    refresh = await updateState(sender_psid, "general_state", app, "audio");
     if(audio_limit == 0){ 
       response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
@@ -799,7 +804,6 @@ module.exports = async (sender_psid, webhook_event, application) => {
       response = null;
       action = null;
       await callSendAPI(sender_psid, response, action, app, fileN);
-      refresh = await updateState(sender_psid, "general_state", app, "audio generated");
       --audio_limit;
       refresh = await updateLimit(sender_psid,"Audio_Limit", audio_limit);
     response = {"text":i18n.__("menu.audio_balance",{audio_limit:`${audio_limit}`}), 
@@ -873,6 +877,8 @@ module.exports = async (sender_psid, webhook_event, application) => {
     }}
   }
   } else if (payload.includes("LEARN_MORE")){
+    refresh = await updateState(sender_psid, "general_state", app, "Learn More");
+
     if(learn_more_limit == 0){ 
       response = {"text":i18n.__("menu.no_more_balance")};
       action = null;
@@ -933,7 +939,6 @@ module.exports = async (sender_psid, webhook_event, application) => {
               action = null;
               state = await callSendAPI(sender_psid, response, action, app);
             }
-            refresh = await updateState(sender_psid, "general_state", app, "Learm More");
             --learn_more_limit;
             refresh = await updateLimit(sender_psid,"Learn_More_Limit", learn_more_limit);
             quick_replies = [];
@@ -1097,6 +1102,7 @@ module.exports = async (sender_psid, webhook_event, application) => {
     });
 
   } else if (payload.includes("SUMMARY")){
+    refresh = await updateState(sender_psid, "general_state", app, "summary");
     if(summary_limit == 0){ 
       response = {"text": i18n.__("menu.no_more_balance")};
       action = null;
@@ -1192,7 +1198,6 @@ module.exports = async (sender_psid, webhook_event, application) => {
 
     if (getLang.includes("ar") || getLang.includes("en") || getLang.includes("zh")){
       loc = getLang.substring(0,2);
-      refresh = await updateState(sender_psid, "general_state", app, "text translated");
       --translate_limit;
       refresh = await updateLimit(sender_psid,"Translate_Limit", translate_limit);
     response = {"text":i18n.__("menu.translation",{translate_limit:`${translate_limit}`}), 
@@ -1207,7 +1212,6 @@ module.exports = async (sender_psid, webhook_event, application) => {
         "payload":"FILES"
       }]
     }}else{
-      refresh = await updateState(sender_psid, "general_state", app, "text translated");
       --translate_limit;
       refresh = await updateLimit(sender_psid,"Translate_Limit" ,translate_limit);
       response = {"text":i18n.__("menu.translation",{translate_limit:`${translate_limit}`}),
@@ -1237,7 +1241,6 @@ module.exports = async (sender_psid, webhook_event, application) => {
       await sleep(1000);
     });
     await sleep(1200);
-    refresh = await updateState(sender_psid, "general_state", app, "summary online");
     --summary_limit;
     refresh = await updateLimit(sender_psid,"Summary_Limit", summary_limit);
     fileN= `./files/${sender_psid}/summary.txt`
